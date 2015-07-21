@@ -1,0 +1,954 @@
+group { name: "elm/check/base/default";
+   images.image: "img/check_base.png" COMP;
+   images.image: "img/check0_SH.png" COMP;
+   images.image: "img/check1_SH.png" COMP;
+   images.image: "img/check3_SH.png" COMP;
+   images.image: "img/check_sel0_SH.png" COMP;
+   images.image: "img/check_sel1_SH.png" COMP;
+   images.image: "img/check_sel3_SH.png" COMP;
+   
+#define ICON     1
+#define LABEL    2
+#define MASK     3
+#define DISABLE  4
+   script {
+      public btmode;
+      public eval_mode(m) {
+         new m1 = m & MASK;
+         new d = m & DISABLE;
+         if (m1 == (ICON | LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"check_disable_clip_default", "default", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"check_disable_clip_default", "disabled", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+            }
+         } else if (m1 == (ICON)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "default", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"check_disable_clip_default", "default", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "disabled", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"check_disable_clip_default", "disabled", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+            }
+         } else if (m1 == (LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"check_disable_clip_default", "default", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"check_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"check_disable_clip_default", "disabled", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+            }
+		} else {
+			if (!d) {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+                set_state(PART:"check_disable_clip_disabled", "default", 0.0);
+                set_state(PART:"check_disable_clip_default", "default", 0.0);
+				set_state(PART:"base", "default", 0.0);
+				set_state(PART:"clip", "default", 0.0);
+				set_state(PART:"event", "default", 0.0);
+			} else {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+                set_state(PART:"check_disable_clip_disabled", "disabled", 0.0);
+                set_state(PART:"check_disable_clip_default", "disabled", 0.0);
+				set_state(PART:"base", "disabled", 0.0);
+				set_state(PART:"clip", "disabled", 0.0);
+				set_state(PART:"event", "disabled", 0.0);
+			}
+         }
+      }
+   }
+   parts {
+      part { name: "base"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/check_base.png";
+            align: 0.0 0.5;
+            min: 18 18;
+            max: 18 18;
+            fixed: 1 1;
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			visible: 0;
+         }
+         description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			color_class: "ilist_item_base";
+         }
+      }
+      part { name: "base_selected"; mouse_events: 0;
+		clip_to: "check_disable_clip_default";
+		description { state: "default" 0.0;
+			image.normal: "img/check_base.png";
+            align: 0.0 0.5;
+            min: 18 18;
+            max: 18 18;
+            fixed: 1 1;
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			color_class: "focus";
+         }
+      }
+      
+      CLIP_SWITCH("check_disable", "base", "base", "default", "disabled")
+      CLIP_SWITCH_CLIPTO("check", "base", "base", "default", "selected", "check_disable_clip_default")
+      
+      part { name: "check_disabled_SH"; mouse_events: 0;
+		clip_to: "check_disable_clip_disabled";
+		description { state: "default" 0.0;
+			image.normal: "img/check0_SH.png";
+			STAY_ON("base")
+		}
+		description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/check_sel0_SH.png";
+		}
+      }     
+      part { name: "check_SH"; mouse_events: 0;
+		clip_to: "check_clip_default";
+		 description { state: "default" 0.0;
+			image.normal: "img/check1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check3_SH.png";
+         }
+	}
+	part { name: "check_sel_SH"; mouse_events: 0;
+		clip_to: "check_clip_selected";
+		 description { state: "default" 0.0;
+			image.normal: "img/check_sel1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check_sel3_SH.png";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check_sel0_SH.png";
+         }
+	}
+	part { name: "clip"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 64;
+         }
+      }
+      part { name: "elm.swallow.content"; type: SWALLOW;
+         scale: 1;
+         clip_to: "clip";
+         description { state: "default" 0.0;
+            fixed: 1 0;
+            visible: 0;
+            align: 0.0 0.5;
+            max: 0 0;
+            rel1.to_x: "base";
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 1 1;
+            rel2.to_x: "base";
+            rel2.offset: 1 -2;
+            rel2.relative: 1.0 1.0;
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            fixed: 0 0;
+            visible: 1;
+            aspect: 1.0 1.0;
+            min: 16 16;
+         }
+      }
+      part { name: "sizer.content"; type: TEXT; mouse_events:  0;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            visible: 0;
+            text { font: "Sans"; size: 12;
+               min: 0 0;
+               text_class: "check_text";
+            }
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+         description { state: "icononly" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+      }
+      part { name: "elm.text"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: 2 2;
+            rel1.to_x: "elm.swallow.content";
+            rel1.relative: 1.0 0.0;
+            rel2.offset: -3 -3;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text";
+            text { font: "Sans"; size: 12;
+              min: 0 0;
+              align: 0.0 0.5;
+              text_class: "check";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text_disabled";
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+         description { state: "disabled_visible" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text_disabled";
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+      }
+      part { name: "event"; type: RECT;
+         ignore_flags: ON_HOLD;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+   }
+   programs {	   
+		OVER("check_SH","event","default","prelight")
+		OVER("check_sel_SH","event","default","prelight")
+		
+      program {
+         signal: "mouse,clicked,1"; source: "event";
+         action: SIGNAL_EMIT "elm,action,check,toggle" "elm";
+      }
+      program {
+         signal: "elm,state,check,on"; source: "elm";
+         action:  STATE_SET "selected" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "check_clip_default";
+         target: "check_clip_selected";
+         target: "check_disabled_SH";
+      }
+      program {
+         signal: "elm,state,check,off"; source: "elm";
+         action:  STATE_SET "default" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "check_clip_default";
+         target: "check_clip_selected";
+         target: "check_disabled_SH";
+      }
+      program {
+         signal: "elm,state,text,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,text,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,disabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,enabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+   }
+#undef ICON
+#undef LABEL
+#undef MASK
+#undef DISABLE
+}
+
+group { name: "elm/check/base/toggle";
+
+	images.image: "img/actionslider_base.png" COMP;
+	images.image: "img/actionsliderOFF_SH.png" COMP;
+	images.image: "img/actionslider0_SH.png" COMP;
+	images.image: "img/actionsliderBT1_SH.png" COMP;
+	images.image: "img/actionsliderBT0_SH.png" COMP;
+   
+#define ICON     1
+#define LABEL    2
+#define MASK     3
+#define DISABLE  4
+   script {
+      public is_rtl;
+      public is_drag;
+      public was_drag;
+      
+      public btmode;
+      public eval_mode(m) {
+         new m1 = m & MASK;
+         new d = m & DISABLE;
+         if (m1 == (ICON | LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"base_SH", "default", 0.0);
+               set_state(PART:"drag_button_SH", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"event2", "default", 0.0);
+               set_state(PART:"elm.ontext", "default", 0.0);
+               set_state(PART:"elm.offtext", "default", 0.0);
+               set_state(PART:"onrect", "default", 0.0);
+               set_state(PART:"offrect", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"base_SH", "disabled", 0.0);
+               set_state(PART:"drag_button_SH", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"event2", "disabled", 0.0);
+               set_state(PART:"elm.ontext", "disabled", 0.0);
+               set_state(PART:"elm.offtext", "disabled", 0.0);
+               set_state(PART:"onrect", "disabled", 0.0);
+               set_state(PART:"offrect", "disabled", 0.0);
+            }
+         } else if (m1 == (ICON)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "default", 0.0);
+               set_state(PART:"base_SH", "default", 0.0);
+               set_state(PART:"drag_button_SH", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"event2", "default", 0.0);
+               set_state(PART:"elm.ontext", "default", 0.0);
+               set_state(PART:"elm.offtext", "default", 0.0);
+               set_state(PART:"onrect", "default", 0.0);
+               set_state(PART:"offrect", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "disabled", 0.0);
+               set_state(PART:"base_SH", "disabled", 0.0);
+               set_state(PART:"drag_button_SH", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"event2", "disabled", 0.0);
+               set_state(PART:"elm.ontext", "disabled", 0.0);
+               set_state(PART:"elm.offtext", "disabled", 0.0);
+               set_state(PART:"onrect", "disabled", 0.0);
+               set_state(PART:"offrect", "disabled", 0.0);
+            }
+         } else if (m1 == (LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"base_SH", "default", 0.0);
+               set_state(PART:"drag_button_SH", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"event2", "default", 0.0);
+               set_state(PART:"elm.ontext", "default", 0.0);
+               set_state(PART:"elm.offtext", "default", 0.0);
+               set_state(PART:"onrect", "default", 0.0);
+               set_state(PART:"offrect", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"base_SH", "disabled", 0.0);
+               set_state(PART:"drag_button_SH", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"event2", "disabled", 0.0);
+               set_state(PART:"elm.ontext", "disabled", 0.0);
+               set_state(PART:"elm.offtext", "disabled", 0.0);
+               set_state(PART:"onrect", "disabled", 0.0);
+               set_state(PART:"offrect", "disabled", 0.0);
+            }
+		} else {
+			if (!d) {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+				set_state(PART:"base_SH", "default", 0.0);
+				set_state(PART:"drag_button_SH", "default", 0.0);
+				set_state(PART:"clip", "default", 0.0);
+				set_state(PART:"event", "default", 0.0);
+				set_state(PART:"event2", "default", 0.0);
+				set_state(PART:"elm.ontext", "default", 0.0);
+				set_state(PART:"elm.offtext", "default", 0.0);
+				set_state(PART:"onrect", "default", 0.0);
+				set_state(PART:"offrect", "default", 0.0);
+			} else {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+				set_state(PART:"base_SH", "disabled", 0.0);
+				set_state(PART:"drag_button_SH", "disabled", 0.0);
+				set_state(PART:"clip", "disabled", 0.0);
+				set_state(PART:"event", "disabled", 0.0);
+				set_state(PART:"event2", "disabled", 0.0);
+				set_state(PART:"elm.ontext", "disabled", 0.0);
+				set_state(PART:"elm.offtext", "disabled", 0.0);
+				set_state(PART:"onrect", "disabled", 0.0);
+				set_state(PART:"offrect", "disabled", 0.0);
+			}
+         }
+      }
+   }
+   parts {
+      part { name: "tog"; type: SPACER;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 0;
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 2 2;
+            rel2.offset: -3 -3;
+            align: 1.0 0.5;
+            min: 106 24;
+            max: 106 24;
+         }
+      }
+      part { name: "base";
+         description { state: "default" 0.0;
+            image.normal: "img/actionslider_base.png";
+            image.border: 6 6 6 6;
+            image.middle: SOLID;
+            STAY_ON("tog")
+            fill.smooth: 0;
+            color_class: "dialog_base";
+         }
+      }
+      
+      part { name: "onrect"; mouse_events: 0;
+         scale: 1;
+         clip_to: "tog_clip";
+         description { state: "default" 0.0;
+            rel1.to: "base";
+            rel1.relative: 0.0 0.0;
+            rel2.to: "button";
+            rel2.relative: 0.5 1.0;
+            image.normal: "img/actionslider_base.png";
+            image.border: 6 6 6 6;
+            color_class: "focus";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+			color_class: "none";
+			color: 163 153 149 255;
+         }
+      }
+      part { name: "offrect"; type: RECT; mouse_events: 0;
+         scale: 1;
+         clip_to: "tog_clip";
+         description { state: "default" 0.0;
+            rel1.to: "button";
+            rel1.relative: 0.5 0.0;
+            rel2.to: "base";
+            rel2.relative: 1.0 1.0;
+            color: 0 0 0 0;
+         }
+      }
+      part { name: "base_SH";
+		description { state: "default" 0.0;
+			image.normal: "img/actionsliderOFF_SH.png";
+			image.border: 6 6 6 6;
+			STAY_ON("base")
+		}
+		description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/actionslider0_SH.png";
+		}
+	 }
+      
+      part { name: "elm.offtext"; type: TEXT; mouse_events:  0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         clip_to: "tog_clip";
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            rel1.to: "button";
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 0 3;
+            rel2.to: "offrect";
+            rel2.offset: -1 -2;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "ilist_item";
+            text { font: "Sans"; size: 12;
+               min: 0 1;
+               align: 0.5 0.5;
+               text_class: "check_off_text";
+               text: "OFF";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "button_text_disabled";
+         }
+      }
+      part { name: "elm.ontext"; type: TEXT; mouse_events:  0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         clip_to: "tog_clip";
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            rel1.to: "onrect";
+            rel1.offset: 2 3;
+            rel2.to: "button";
+            rel2.relative: 0.0 1.0;
+            rel2.offset: -1 -2;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "ilist_item_selected";
+            text { font: "Sans"; size: 12;
+               min: 0 1;
+               align: 0.5 0.5;
+               text_class: "check_on_text";
+               text: "ON";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "button_text_disabled";
+         }
+      }
+      part { name: "tog_clip"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "tog";
+            rel2.to: "tog";
+         }
+      }
+      part { name: "button"; type: RECT;
+         scale: 1;
+         clip_to: "tog_clip";
+         dragable {
+            x: 1 1 0;
+            y: 0 0 0;
+            confine: "tog";
+         }
+         description { state: "default" 0.0;
+            //fixed: 1 1;
+            rel1.to: "tog";
+            rel2.to: "tog";
+            min: 52 24;
+            max: 52 99999;
+            color: 0 0 0 0;
+         }
+      }
+      
+      part { name: "drag_button"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/actionslider_base.png";
+            image.border: 6 6 6 6;
+            image.middle: SOLID;
+            STAY_ON("button")
+            fill.smooth: 0;
+            color_class: "dialog_base";
+         }
+      }
+      
+      part { name: "drag_button_SH"; mouse_events: 0;
+		description { state: "default" 0.0;
+			STAY_ON("drag_button")
+			image.normal: "img/actionsliderBT1_SH.png";
+			image.border: 6 6 6 6;
+			}
+		description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/actionsliderBT0_SH.png";
+		}
+	}  
+      
+      part { name: "button_events"; type: RECT;
+         dragable.events: "button";
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+      }
+      part { name: "clip"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 64;
+         }
+      }
+      part { name: "elm.swallow.content"; type: SWALLOW;
+         scale: 1;
+         clip_to: "clip";
+         description { state: "default" 0.0;
+            fixed: 1 0;
+            visible: 0;
+            align: 0.0 0.5;
+            max: 0 0;
+            rel1.offset: 1 1;
+            rel2.offset: 1 -2;
+            rel2.relative: 0.0 1.0;
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            fixed: 0 0;
+            visible: 1;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+            min: 16 16;
+         }
+      }
+      part { name: "sizer.content"; type: TEXT; mouse_events:  0;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            visible: 0;
+            text { font: "Sans"; size: 12;
+               min: 0 0;
+               text_class: "check_text";
+            }
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+         description { state: "icononly" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+      }
+      part { name: "elm.text"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.to_x: "elm.swallow.content";
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 2 2;
+            rel2.to_x: "tog";
+            rel2.relative: 0.0 1.0;
+            rel2.offset: -5 -3;
+            color: 255 255 255 255;
+            color3: 0 0 0 128;
+            color_class: "check_text";
+            text { font: "Sans"; size: 12;
+              min: 0 0;
+              align: 0.0 0.5;
+              text_class: "check";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text_disabled";
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+         description { state: "disabled_visible" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text_disabled";
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+      }
+      part { name: "event"; type: RECT;
+         ignore_flags: ON_HOLD;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+            rel1.to_x: "elm.swallow.content";
+            rel2.to_x: "elm.text";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "event2"; type: RECT;
+         ignore_flags: ON_HOLD;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+            visible: 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+   }
+   programs {
+      program {
+         signal: "mouse,clicked,1"; source: "event";
+         action: SIGNAL_EMIT "elm,action,check,toggle" "elm";
+      }
+      program {
+         signal: "elm,state,check,on"; source: "elm";
+         script {
+            new Float:drag;
+            if (get_int(is_rtl) == 0) {
+               drag = 100.0;
+            } else {
+               drag = 0.0;
+            }
+            set_drag(PART:"button", drag, 0.0);
+         }
+      }
+      program {
+         signal: "elm,state,check,off"; source: "elm";
+         script {
+            new Float:drag;
+            if (get_int(is_rtl) == 0) {
+               drag = 0.0;
+            } else {
+               drag = 100.0;
+            }
+            set_drag(PART:"button", drag, 0.0);
+         }
+      }
+      program {      
+         signal: "mouse,clicked,1"; source: "button";
+         script {
+            new Float:dx, Float:dy;
+            get_drag(PART:"button", dx, dy);
+            if (!get_int(was_drag)) {
+               if (dx > 0.5) {
+                  set_drag(PART:"button", 0.0, 0.0);
+               } else {
+                  set_drag(PART:"button", 1.0, 0.0);
+               }
+               if (((get_int(is_rtl) == 1) && (dx <= 0.5)) ||
+                   (get_int(is_rtl) == 0) && (dx > 0.5)) {
+                  emit("elm,action,check,off", "");
+               } else {
+                  emit("elm,action,check,on", "");
+               }
+            }
+         }
+      }
+      program {
+         signal: "drag"; source: "button";
+         script {
+            set_int(is_drag, 1);
+         }
+      }
+      program {
+         signal: "mouse,down,1"; source: "button";
+         script {
+            set_int(was_drag, 0);
+            set_int(is_drag, 0);
+         }
+      }
+      program { name: "drag_end";
+         signal: "mouse,up,1"; source: "button";
+         script {
+            new Float:dx, Float:dy;
+            get_drag(PART:"button", dx, dy);
+            if (get_int(is_drag)) {
+               if (dx > 0.5) {
+                 set_drag(PART:"button", 1.0, 0.0);
+               } else {
+                 set_drag(PART:"button", 0.0, 0.0);
+               }
+               if (((get_int(is_rtl) == 1) && (dx <= 0.5)) ||
+                   (get_int(is_rtl) == 0) && (dx > 0.5)) {
+                 emit("elm,action,check,on", "");
+               } else {
+                 emit("elm,action,check,off", "");
+               }
+               set_int(was_drag, 1);
+               set_int(is_drag, 0);
+            }
+         }
+      }
+     
+      program {
+         signal: "elm,state,text,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,text,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,disabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,enabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "edje,state,rtl"; source: "edje";
+         script {
+            set_int(is_rtl, 1);
+         }
+      }
+      program {
+         signal: "edje,state,ltr"; source: "edje";
+         script {
+            set_int(is_rtl, 0);
+         }
+      }
+   }
+#undef ICON
+#undef LABEL
+#undef MASK
+#undef DISABLE
+}

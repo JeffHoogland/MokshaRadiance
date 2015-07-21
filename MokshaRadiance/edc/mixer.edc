@@ -1,0 +1,129 @@
+#define SOUND_IMG(VOLUME)										\
+set {															\
+			name: "audio-volume-"VOLUME;						\
+			image {												\
+				image: "img/audio-volume-"VOLUME"_24.png" COMP;	\
+				size: 0 0 24 24;								\
+			}													\
+			image {												\
+				image: "img/audio-volume-"VOLUME"_64.png" COMP;	\
+				size: 25 25 64 64;								\
+			}													\
+			image {												\
+				image: "img/audio-volume-"VOLUME"_128.png" COMP;	\
+				size: 65 65 128 128;							\
+			}													\
+			image {												\
+				image: "img/audio-volume-"VOLUME"_256.png" COMP;	\
+				size: 129 129 256 256;							\
+			}													\
+		}
+
+group { name: "e/modules/mixer/main";
+	images {
+		SOUND_IMG("high")
+		SOUND_IMG("zero")
+		SOUND_IMG("medium")
+		SOUND_IMG("muted")
+		SOUND_IMG("low")
+	}
+	script {
+		public message(Msg_Type:type, id, ...) {
+			if ((type == MSG_INT_SET) && (id == 0)) {
+				new mute, left, right, total;
+				mute = getarg(2);
+				left = getarg(3);
+				right = getarg(4);
+				total = left + right;
+
+				if (mute)
+					run_program(PROGRAM:"mute");
+				else
+					run_program(PROGRAM:"on");
+
+				if (total <= 0)
+					run_program(PROGRAM:"none");
+				else if (total < 70)
+					run_program(PROGRAM:"low");
+				else if (total < 150)
+					run_program(PROGRAM:"medium");
+				else
+					run_program(PROGRAM:"high");
+			}
+		}
+	}
+	parts {
+		part { name: "eventarea";
+			type: RECT;
+			mouse_events: 1;
+			description { state: "default" 0.0;
+				color: 0 0 0 0;
+			}
+		}
+		CLIP_SWITCH("mixer","audio","audio","default","muted")
+		part { name: "audio_disable";
+			clip_to: "mixer_clip_default";
+			description { state: "default" 0.0;
+				min: 16 16; max: 256 256;
+				aspect: 1 1; aspect_preference: BOTH;
+				image.normal: "audio-volume-muted";
+				rel1.offset: 2 2;
+				rel2.offset: -3 -3;
+			}
+		}
+		part { name: "audio";
+			clip_to: "mixer_clip_muted";
+			type: IMAGE;
+			mouse_events: 0;
+			description { state: "default" 0.0;
+				min: 16 16;
+				max: 256 256;
+				aspect: 1 1;
+				aspect_preference: BOTH;
+				image.normal: "audio-volume-zero";
+				rel1.offset: 2 2;
+				rel2.offset: -3 -3;
+			}
+			description { state: "low" 0.0;
+				inherit: "default" 0.0;
+				image.normal: "audio-volume-low";
+			}
+			description { state: "medium" 0.0;
+				inherit: "default" 0.0;
+				image.normal: "audio-volume-medium";
+			}
+			description { state: "high" 0.0;
+				inherit: "default" 0.0;
+				image.normal: "audio-volume-high";
+			}
+		}
+	}
+	programs {
+		program { name: "mute";
+			action: STATE_SET "default" 0.0;
+			target: "mixer_clip_default";
+			target: "mixer_clip_muted";
+		}
+		program { name: "on";
+			action: STATE_SET "muted" 0.0;
+			target: "mixer_clip_default";
+			target: "mixer_clip_muted";
+		}
+		program { name: "none";
+			action: STATE_SET "default" 0.0;
+			target: "audio";
+		}
+		program { name: "low";
+			action: STATE_SET "low" 0.0;
+			target: "audio";
+		}
+		program { name: "medium";
+			action: STATE_SET "medium" 0.0;
+			target: "audio";
+		}
+		program { name: "high";
+			action: STATE_SET "high" 0.0;
+			target: "audio";
+		}
+	}
+}

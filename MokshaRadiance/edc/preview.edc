@@ -1,0 +1,16 @@
+group { name: "e/widgets/preview";
+   parts {
+      part { name: "clipper"; type: RECT;
+         description { state: "default" 0.0;
+			STAY_ON("e.swallow.content")
+         }
+      }
+      part { name: "e.swallow.content"; type: SWALLOW;
+         clip_to: "clipper";
+         description { state: "default" 0.0;
+            rel1.offset: 1 1;
+            rel2.offset: -2 -2;
+         }
+      }
+   }
+}

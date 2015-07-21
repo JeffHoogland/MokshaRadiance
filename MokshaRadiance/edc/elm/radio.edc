@@ -1,0 +1,368 @@
+group { name: "elm/radio/base/default";
+	images.image: "img/radio_base.png" COMP;
+   images.image: "img/radio0_SH.png" COMP;
+   images.image: "img/radio1_SH.png" COMP;
+   images.image: "img/radio3_SH.png" COMP;
+   images.image: "img/radio_sel0_SH.png" COMP;
+   images.image: "img/radio_sel1_SH.png" COMP;
+   images.image: "img/radio_sel3_SH.png" COMP;
+
+#define ICON     1
+#define LABEL    2
+#define MASK     3
+#define DISABLE  4
+   script {
+      public btmode;
+      public eval_mode(m) {
+         new m1 = m & MASK;
+         new d = m & DISABLE;
+         if (m1 == (ICON | LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"radio_disable_clip_default", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "visible", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_default", "disabled", 0.0);
+            }
+         } else if (m1 == (ICON)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "default", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"radio_disable_clip_default", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "visible", 0.0);
+               set_state(PART:"sizer.content", "icononly", 0.0);
+               set_state(PART:"elm.text", "disabled", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_default", "disabled", 0.0);
+            }
+         } else if (m1 == (LABEL)) {
+            if (!d) {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "visible", 0.0);
+               set_state(PART:"base", "default", 0.0);
+               set_state(PART:"clip", "default", 0.0);
+               set_state(PART:"event", "default", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "default", 0.0);
+               set_state(PART:"radio_disable_clip_default", "default", 0.0);
+            } else {
+               set_state(PART:"elm.swallow.content", "default", 0.0);
+               set_state(PART:"sizer.content", "default", 0.0);
+               set_state(PART:"elm.text", "disabled_visible", 0.0);
+               set_state(PART:"base", "disabled", 0.0);
+               set_state(PART:"clip", "disabled", 0.0);
+               set_state(PART:"event", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_disabled", "disabled", 0.0);
+               set_state(PART:"radio_disable_clip_default", "disabled", 0.0);
+            }
+		} else {
+			if (!d) {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+				set_state(PART:"base", "default", 0.0);
+				set_state(PART:"clip", "default", 0.0);
+				set_state(PART:"event", "default", 0.0);
+				set_state(PART:"radio_disable_clip_disabled", "default", 0.0);
+				set_state(PART:"radio_disable_clip_default", "default", 0.0);
+			} else {
+				set_state(PART:"elm.swallow.content", "default", 0.0);
+				set_state(PART:"sizer.content", "default", 0.0);
+				set_state(PART:"elm.text", "default", 0.0);
+				set_state(PART:"base", "disabled", 0.0);
+				set_state(PART:"clip", "disabled", 0.0);
+				set_state(PART:"event", "disabled", 0.0);
+				set_state(PART:"radio_disable_clip_disabled", "disabled", 0.0);
+				set_state(PART:"radio_disable_clip_default", "disabled", 0.0);
+			}
+         }
+      }
+   }
+   parts {
+      part { name: "base"; mouse_events: 0;
+         scale: 1;
+         description { state: "default" 0.0;
+			image.normal: "img/radio_base.png";
+			align: 0.0 0.5;
+            FIXED_SIZE(18, 18)
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			visible: 0;
+         }
+         description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			color_class: "ilist_item_base";
+         }
+      }
+      
+      part { name: "base_selected"; mouse_events: 0;
+		clip_to: "radio_disable_clip_default";
+		description { state: "default" 0.0;
+			image.normal: "img/radio_base.png";
+            align: 0.0 0.5;
+            min: 18 18;
+            max: 18 18;
+            fixed: 1 1;
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			color_class: "focus";
+         }
+      }
+      
+      part { name: "clip"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 64;
+         }
+      }      
+      CLIP_SWITCH("radio_disable", "base", "base", "default", "disabled")
+      CLIP_SWITCH_CLIPTO("radio", "base", "base", "default", "selected", "radio_disable_clip_default")
+      
+      part { name: "radio_disabled_SH"; mouse_events: 0;
+		clip_to: "radio_disable_clip_disabled";
+		description { state: "default" 0.0;
+			image.normal: "img/radio0_SH.png";
+			STAY_ON("base")
+		}
+		description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/radio_sel0_SH.png";
+		}
+      }     
+      part { name: "radio_SH"; mouse_events: 0;
+		clip_to: "radio_clip_default";
+		 description { state: "default" 0.0;
+			image.normal: "img/radio1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/radio3_SH.png";
+         }
+	}
+	part { name: "radio_sel_SH"; mouse_events: 0;
+		clip_to: "radio_clip_selected";
+		 description { state: "default" 0.0;
+			image.normal: "img/radio_sel1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/radio_sel3_SH.png";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/radio_sel0_SH.png";
+         }
+	}
+      
+      part { name: "elm.swallow.content"; type: SWALLOW;
+         scale: 1;
+         clip_to: "clip";
+         description { state: "default" 0.0;
+            fixed: 1 0;
+            visible: 0;
+            align: 0.0 0.5;
+            max: 0 0;
+            rel1.to_x: "base";
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 1 1;
+            rel2.to_x: "base";
+            rel2.offset: 1 -2;
+            rel2.relative: 1.0 1.0;
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            fixed: 0 0;
+            visible: 1;
+            aspect: 1.0 1.0;
+            min: 18 18;
+         }
+      }
+      part { name: "sizer.content"; type: TEXT; mouse_events:  0;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            visible: 0;
+           color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "radio_text";
+            text { font: "Sans"; size: 12;
+               min: 0 0;
+               text_class: "radio_button";
+            }
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+         description { state: "icononly" 0.0;
+            inherit: "default" 0.0;
+            rel1.to: "elm.swallow.content";
+            rel2.to: "elm.swallow.content";
+            text {
+               min: 1 1;
+               ellipsis: -1;
+               text: "M";
+            }
+         }
+      }
+      part { name: "elm.text"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: 2 2;
+            rel1.to_x: "elm.swallow.content";
+            rel1.relative: 1.0 0.0;
+            rel2.offset: -3 -3;
+           color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "radio_text";
+            text { font: "Sans"; size: 12;
+              min: 0 0;
+              align: 0.0 0.5;
+              text_class: "radio_button";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color_class: "radio_text_disabled";
+         }
+         description { state: "visible" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+         description { state: "disabled_visible" 0.0;
+            inherit: "default" 0.0;
+            color_class: "radio_text_disabled";
+            visible: 1;
+            text.min: 1 1;
+               text.ellipsis: -1;
+         }
+      }
+      part { name: "event"; type: RECT;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+   }
+   programs {
+	   
+		OVER("radio_SH","event","default","prelight")
+		OVER("radio_sel_SH","event","default","prelight")
+		
+      program {
+         signal: "mouse,clicked,1"; source: "event";
+         action: SIGNAL_EMIT "elm,action,radio,toggle" "elm";
+      }
+      program {
+         signal: "elm,state,radio,on"; source: "elm";
+         action: STATE_SET "selected" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "radio_clip_default";
+         target: "radio_clip_selected";
+         target: "radio_disabled_SH";
+      }
+      program {
+         signal: "elm,state,radio,off"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "radio_clip_default";
+         target: "radio_clip_selected";
+         target: "radio_disabled_SH";
+      }
+      program {
+         signal: "elm,state,text,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,text,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~LABEL; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,visible"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,icon,hidden"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~ICON; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,disabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m |= DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+      program {
+         signal: "elm,state,enabled"; source: "elm";
+         script {
+            new m = get_int(btmode);
+            m &= ~DISABLE; set_int(btmode, m);
+            eval_mode(m);
+         }
+      }
+   }
+#undef ICON
+#undef LABEL
+#undef MASK
+#undef DISABLE
+}

@@ -1,0 +1,464 @@
+group { name: "elm/colorselector/palette/default";
+   data.item: "horizontal_pad" 0;
+   data.item: "vertical_pad" 0;
+   parts {
+      part { name: "elm.picker"; type: SWALLOW;
+         description { state: "default" 0.0;
+            fixed: 0 1;
+            align: 0.5 0.0;
+            rel2.relative: 1.0 0.0;
+         }
+      }
+      part { name: "sep1"; type: RECT;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            rel1.to_y: "elm.picker";
+            rel1.offset: 4 4;
+            rel1.relative: 0.0 1.0;
+            rel2.to_y: "elm.picker";
+            rel2.offset: -5 5;
+            min: 1 1;
+            max: 99999 1; 
+           color: 0 0 0 20;
+         }
+         description { state: "off" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 4 -2;
+            rel2.offset: -5 -1;
+            visible: 0;
+         }
+      }
+      part { name: "elm.palette"; type: SWALLOW;
+         description { state: "default" 0.0;
+            align: 0.5 0.0;
+            rel1.to_y: "sep1";
+            rel1.relative: 0.0 1.0;
+            rel1.offset: 0 4;
+            rel2.to_y: "sep2";
+            rel2.relative: 1.0 0.0;
+            rel2.offset: -1 -5;
+         }
+         description { state: "off" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 0 0;
+            rel2.offset: -1 -1;
+         }
+      }
+      part { name: "sep2"; type: RECT;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            rel1.to_y: "elm.selector";
+            rel1.offset: 4 -6;
+            rel2.to_y: "elm.selector";
+            rel2.offset: -5 -5;
+            rel2.relative: 1.0 0.0;
+            min: 1 1;
+            max: 99999 1;
+           color: 0 0 0 20;
+         }
+         description { state: "off" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 4 0;
+            rel2.offset: -5 1;
+            visible: 0;
+         }
+      }
+      part { name: "elm.selector"; type: SWALLOW;
+         description { state: "default" 0.0;
+            fixed: 0 1;
+            align: 0.0 1.0;
+            rel1.relative: 0.0 1.0;
+         }
+      }
+   }
+   programs {
+      program {
+         source: "elm"; signal: "elm,state,palette";
+         action: STATE_SET "off" 0.0;
+         target: "sep1";
+         target: "sep2";
+      }
+      program {
+         source: "elm"; signal: "elm,state,palette";
+         action: STATE_SET "default" 0.0;
+         target: "elm.palette";
+      }
+      
+      program {
+         source: "elm"; signal: "elm,state,components";
+         action: STATE_SET "off" 0.0;
+         target: "sep1";
+         target: "sep2";
+         target: "elm.palette";
+      }
+      
+      program {
+         source: "elm"; signal: "elm,state,both";
+         action: STATE_SET "off" 0.0;
+         target: "sep1";
+      }
+      program {
+         source: "elm"; signal: "elm,state,both";
+         action: STATE_SET "default" 0.0;
+         target: "elm.palette";
+         target: "sep2";
+      }
+      
+      program {
+         source: "elm"; signal: "elm,state,picker";
+         action: STATE_SET "off" 0.0;
+         target: "sep1";
+         target: "sep2";
+         target: "elm.palette";
+      }
+      
+      program {
+         source: "elm"; signal: "elm,state,all";
+         action: STATE_SET "default" 0.0;
+         target: "sep1";
+         target: "sep2";
+         target: "elm.palette";
+      }
+   }
+}
+
+group { name: "elm/colorselector/picker/default";
+   images.image: "img/scroll_shadow.png" COMP;
+   
+   parts {
+      part { name: "bg";
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: -2 -2;
+            rel2.offset: 1 1;
+            rel1.to: "elm.picker";
+            rel2.to: "elm.picker";
+            min: 18 18;
+            image.normal: "img/scroll_shadow.png";
+            image.border: 1 1 1 1;
+            image.middle: 0;
+            color_class: "ilist_item";
+         }
+      }
+      part { name: "clipper"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "elm.picker";
+            rel2.to: "elm.picker";
+         }
+      }
+      part { name: "elm.picker"; type: SWALLOW;
+         clip_to: "clipper";
+         description { state: "default" 0.0;
+         rel1.offset: 3 3;
+            rel2.offset: -4 -4;
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/bg/default";
+   parts {
+      part { name: "elm.colorbar_0"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel2.relative: 1.0 0.0;
+            align: 0.5 0.0;
+            fixed: 0 1;
+         }
+      }
+      part { name: "elm.colorbar_1"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to_y: "elm.colorbar_0";
+            rel1.relative: 0.0 1.0;
+            rel2.to_y: "elm.colorbar_0";
+            rel2.relative: 1.0 1.0;
+            align: 0.5 0.0;
+            fixed: 0 1;
+         }
+      }
+      part { name: "elm.colorbar_2"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to_y: "elm.colorbar_1";
+            rel1.relative: 0.0 1.0;
+            rel2.to_y: "elm.colorbar_1";
+            rel2.relative: 1.0 1.0;
+            align: 0.5 0.0;
+            fixed: 0 1;
+         }
+      }
+      part { name: "elm.colorbar_3"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to_y: "elm.colorbar_2";
+            rel1.relative: 0.0 1.0;
+            align: 0.5 0.0;
+         }
+      }
+   }
+}
+
+
+group { name: "elm/colorselector/base/default";
+   images.image: "img/scroll_shadow.png" COMP;
+   images.image: "img/ring_shadow.png" COMP;
+   images.image: "img/ring_white_blue_glow.png" COMP;
+   parts {
+      part { name: "elm.bar_bg"; type: SWALLOW; mouse_events: 0;
+         description { state: "default" 0.0;
+            min: 32 15;
+            rel1.offset: 0 10;
+            rel1.to_x: "elm.arrow_bg";
+            rel2.offset: -1 -11;
+            rel2.to_x: "elm.arrow_bg";
+         }
+      }
+      part { name: "elm.bar"; type: SWALLOW; mouse_events: 0;
+         description { state: "default" 0.0;
+            rel1.to: "elm.bar_bg";
+            rel2.to: "elm.bar_bg";
+         }
+      }
+      part { name: "shadow"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/scroll_shadow.png";
+            image.border: 1 1 1 1;
+            image.middle: 0;
+            color_class: "ilist_item";
+            rel1.to: "elm.bar_bg";
+            rel1.offset: -2 -2;
+            rel2.to: "elm.bar_bg";
+            rel2.offset: 1 1;
+            fill.smooth: 0;
+         }
+      }
+      part { name: "elm.arrow_bg"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1 {
+               relative: 1.0 0.0;
+               offset: 6 0;
+               to_x: "elm.l_button";
+            }
+            rel2 {
+               relative: 0.0 1.0;
+               offset: -6 0;
+               to_x: "elm.r_button";
+            }
+         }
+      }
+      part { name: "elm.arrow"; type: RECT;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            min: 1 1;
+            rel1.to_x: "elm.arrow_bg";
+            rel2.to_x: "elm.arrow_bg";
+            visible: 0;
+         }
+         dragable {
+            confine: "elm.arrow_bg";
+            x: 1 1 0;
+            y: 0 0 0;
+         }
+      }
+      part { name: "event"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "elm.arrow_icon";
+            rel2.to_x: "elm.arrow_icon";
+            rel2.to_y: "elm.arrow_bg";
+            color: 0 0 0 0;
+         }
+         dragable.events: "elm.arrow";
+      }
+      part { name: "arrow_under"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/ring_shadow.png";
+            rel1.to: "elm.arrow_icon";
+            rel2.to: "elm.arrow_icon";
+         }
+      }
+      part { name: "elm.arrow_icon"; type: SWALLOW; mouse_events: 0;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            min: 16 16;
+            max: 16 16;
+            align: 0.5 (28/32);
+            rel1.to_x: "elm.arrow";
+            rel1.to_y: "shadow";
+            rel2.relative: 1.0 0.0;
+            rel2.to_x: "elm.arrow";
+            rel2.to_y: "shadow";
+         }
+      }
+      part { name: "arrow_over"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/ring_white_blue_glow.png";
+            rel1.to: "elm.arrow_icon";
+            rel2.to: "elm.arrow_icon";
+         }
+      }
+      part { name: "cursor"; type: RECT;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            min: 1 1;
+            rel1.to_x: "elm.arrow_icon";
+            rel1.to_y: "shadow";
+            rel1.relative: 0.5 0.0;
+            rel2.to_x: "elm.arrow_icon";
+            rel2.to_y: "shadow";
+            rel2.relative: 0.5 1.0;
+            rel2.offset: 0 -1;
+            color: 255 255 255 150;
+         }
+         dragable.events: "elm.arrow";
+      }
+      part { name: "elm.arrow_bg_access"; type: RECT;
+         repeat_events: 1;
+         description { state: "default" 0.0;
+            rel1.to: "elm.arrow_bg";
+            rel2.to: "elm.arrow_bg";
+            color: 0 0 0 0;
+         }
+      }
+      part { name: "elm.l_button"; type: SWALLOW;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            min: 20 20;
+            rel1.relative: 0.0 0.0;
+            rel1.to_y: "elm.bar_bg";
+            rel2.relative: 0.0 1.0;
+            rel2.to_y: "elm.bar_bg";
+            align: 0.0 0.5;
+         }
+      }
+      part { name: "elm.r_button"; type: SWALLOW;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            min: 20 20;
+            rel1.relative: 1.0 0.0;
+            rel1.to_y: "elm.bar_bg";
+            rel2.relative: 1.0 1.0;
+            rel2.to_y: "elm.bar_bg";
+            align: 1.0 0.5;
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/arrow/default";
+   images.image: "img/ring_white_middle.png" COMP;
+   parts {
+      part { name: "base";
+         description { state: "default" 0.0;
+            aspect: 1.0 1.0; aspect_preference: BOTH;
+            image.normal: "img/ring_white_middle.png";
+         }
+      }
+   }
+}
+
+group{ name: "elm/colorselector/image/colorbar_0/default";
+   images {
+      image: "color_picker_color.png" COMP;
+   }
+   parts {
+      part { name: "colorbar_0_image";
+         type: IMAGE;
+         description { state: "default" 0.0;
+            rel2.offset: -1 -1;
+            image.normal: "color_picker_color.png";
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/image/colorbar_1/default";
+   images.image: "color_picker_opacity.png" COMP;
+   parts {
+      part { name: "colorbar_1_image";
+         description { state: "default" 0.0;
+            image.normal: "color_picker_opacity.png";
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/image/colorbar_2/default";
+   images.image: "color_picker_brightness.png" COMP;
+   parts {
+      part { name: "colorbar_2_image";
+         description { state: "default" 0.0;
+            image.normal: "color_picker_brightness.png";
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/image/colorbar_3/default";
+   images.image: "color_picker_alpha.png" COMP;
+   parts {
+      part { name: "colorbar_3_image";
+         description { state: "default" 0.0;
+            image.normal: "color_picker_alpha.png";
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/bg_image/colorbar_3/default";
+   
+   parts {
+      part { name: "bg"; type: RECT;
+         description { state: "default" 0.0;
+            color: TRANSPARENT;
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/item/default";
+
+	images.image: "img/scroll_shadow.png" COMP;
+
+   parts {
+      part { name: "bg";
+         scale: 1;
+         description { state: "default" 0.0;
+            min: 20 20;
+            rel1.to: "color_obj";
+            rel1.offset: -2 -2;
+            rel2.to: "color_obj";
+            rel2.offset: 1 1;
+            image.normal: "img/scroll_shadow.png";
+            image.border: 1 1 1 1;
+            image.middle: 0;
+            color_class: "ilist_item";
+         }
+      }
+      part { name: "clipper"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "color_obj";
+            rel2.to: "color_obj";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 64;
+         }
+      }
+      part { name: "color_obj"; type: SWALLOW;
+         clip_to: "clipper";
+         description { state: "default" 0.0;
+            rel1.offset: 3 3;
+            rel2.offset: -4 -4;
+         }
+      }
+   }
+}
+
+group { name: "elm/colorselector/item/color/default";
+   parts {
+      part { name: "color_rect"; type: RECT;
+         description{ state: "default" 0.0;
+         }
+      }
+   }
+}

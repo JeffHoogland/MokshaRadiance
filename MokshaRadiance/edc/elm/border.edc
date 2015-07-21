@@ -1,0 +1,924 @@
+group { name: "elm/ews/background/default";
+
+   parts {
+      part { name: "bg"; type: RECT;
+         description { state: "default" 0.0; 
+            color_class: "dialog_base";
+         }
+      }
+   }
+}
+
+#define ELM_BORDER_PARTS														\
+		part { name: "shadow_clip"; type: RECT;								\
+         description { state: "default" 0.0;								\
+            STAY_ON("shadow")												\
+            color: VISIBLE;													\
+         }																	\
+         description { state: "hidden" 0.0;									\
+            inherit: "default" 0.0;											\
+            color: TRANSPARENT;												\
+            visible: 0;														\
+         }																	\
+      }																		\
+      part { name: "shadow"; mouse_events: 0;								\
+         clip_to: "shadow_clip";											\
+         description { state: "default" 0.0;								\
+            image.normal: "win_shadow.png";									\
+            image.border: 8 8 8 8;											\
+            image.middle: 0;												\
+            rel1.to: "border";												\
+            rel1.offset: -4  -4;											\
+            rel2.to: "border";												\
+            rel2.offset: 3 3;												\
+            fill.smooth: 1;													\
+            color: 0 0 0 125;												\
+         }																	\
+         description { state: "maximized" 0.0;								\
+			inherit: "default" 0.0;											\
+			visible: 0; color: TRANSPARENT;									\
+         }																	\
+		description { state: "focused" 0.0;									\
+			inherit: "default" 0.0;											\
+			visible: 0; color_class: "focus";								\
+         }																	\
+      }																		\
+		part { name: "border"; type: IMAGE;	mouse_events: 0;				\
+		  description { state: "default" 0.0;								\
+			  image { normal: "img/border.png"; border: 10 10 27 1;			\
+			  }																\
+			  color: 255 255 255 255;										\
+			  color_class: "border_frame";									\
+		  }																	\
+		  description { state: "maximized" 0.0;								\
+			inherit: "default" 0.0;											\
+			image.normal: "img/border_max.png";								\
+		  }																	\
+	  }																		\
+		CLIP_SWITCH("borderShine", "border", "border", "default", "maximized")	\
+		part { name: "borderShine"; type: IMAGE;	mouse_events: 0;		\
+			clip_to: "borderShine_clip_default";									\
+		  description { state: "default" 0.0;								\
+			  STAY_ON("border")												\
+			  image { normal: "img/borderShine.png"; border: 10 10 27 1;	\
+			  }																\
+			  color_class: "border_frame_active";			  				\
+		  }																	\
+		  description { state: "focused" 0.0;								\
+			  inherit: "default" 0.0;										\
+			  image { normal: "img/borderShine2.png"; border: 10 10 27 1;	\
+			  }																\
+		  }																	\
+	  }																		\
+	  part { name: "border_maxShine"; type: IMAGE;	mouse_events: 0;		\
+			clip_to: "borderShine_clip_maximized";								\
+		  description { state: "default" 0.0;								\
+			  STAY_ON("border")												\
+			  image { normal: "img/border_maxShine.png"; border: 10 10 27 1;\
+			  }																\
+			  color_class: "border_frame_active";			  				\
+		  }																	\
+		  description { state: "focused" 0.0;								\
+			  inherit: "default" 0.0;										\
+			  image { normal: "img/border_maxShine2.png"; border: 10 10 27 1;\
+			  }																\
+		  }																	\
+	  }
+
+//Parts used for Title   
+#define ELM_TITLE_PARTS(REL2_TO_X)							\
+		part { name: "elm.text.title"; type: TEXT;		\
+         scale: 1;										\
+         effect: SHADOW BOTTOM_RIGHT;					\
+         description { state: "default" 0.0;			\
+            color_class: "border_title";				\
+            rel1.relative: 1.0 0.0;						\
+            rel1.offset: 1 2;							\
+            rel1.to_x: "e.event.icon";					\
+            rel2.relative: 0.0 1.0;						\
+            rel2.offset: -2 -1;							\
+            rel2.to_y: "e.event.titlebar";				\
+            rel2.to_x: REL2_TO_X;						\
+            align: 0.0 0.0;								\
+            color_class: "border_title";				\
+            color: 255 255 255 255;						\
+            color2: 255 255 255 255;					\
+            color3: 255 255 255 255;					\
+            text { font: "Ubuntu:style=Bold"; size: 14;	\
+               text_class: "title_bar";					\
+               align: 0.0 0.5;							\
+               min: 0 1;								\
+            }											\
+            fixed: 0 1;									\
+         }												\
+         description { state: "focused" 0.0;			\
+            inherit: "default" 0.0;						\
+            color_class: "border_title_active";			\
+		 }												\
+      }
+
+
+//Parts used for Icons
+#define ELM_ICON_PARTS										\
+		part { name: "icon"; type: SPACER;				\
+         description { state: "default" 0.0;			\
+            rel1.to: "e.event.icon";					\
+            rel2.to: "e.event.icon";					\
+         }												\
+         description { state: "bounce1" 0.0;			\
+            inherit: "default" 0.0;						\
+            rel1.relative: 0.0 0.15;					\
+            rel2.relative: 1.0 1.15;					\
+         }												\
+         description { state: "bounce2" 0.0;			\
+            inherit: "default" 0.0;						\
+            rel1.relative: 0.0 -0.15;					\
+            rel2.relative: 1.0 0.85;					\
+         }												\
+      }													\
+		part { name: "e.swallow.icon"; type: SWALLOW;	\
+         description { state: "default" 0.0;			\
+            rel1.to: "icon";							\
+            rel1.relative: 0.15 0.15;					\
+            rel2.to: "icon";							\
+            rel2.relative: 0.85 0.85;					\
+            rel2.offset: 0 0;							\
+         }												\
+      }													\
+      /*part { name: "knob"; mouse_events: 0;				\
+         description { state: "default" 0.0;			\
+            fixed: 1 1;									\
+            image.normal: "knob_round_small_busy.png";	\
+            aspect: 1.0 1.0; aspect_preference: BOTH;	\
+            max: 20 20;									\
+            STAY_ON("e.event.icon")						\
+            fixed: 1 1;									\
+         }												\
+      }*/
+
+
+group { name: "elm/ews/decoration/default";
+	images {
+		BORDER_IMAGES 
+		BT_CLOSE_IMAGES
+		BT_MIN_MAX_IMAGES
+	}
+   parts {
+	   
+	ELM_BORDER_PARTS
+	ELM_ICON_PARTS
+	ELM_TITLE_PARTS("through_left")
+
+	//WINDOW BUTTON: A single window buttons have 3 different states (description): default, prelight and pressed
+    //for both focused and unfocused window, so I use the clip_to function to make a visible the part with the different 3 different
+    //state. Things get a little more complicated for Maximized button, because I have to switch to the Maximized and unmaximized state
+    
+		THROUGH_BUTTON("right", "e.event.titlebar", -28, -9)
+  		THROUGH_BUTTON("middle", "through_right", -38, -19)
+		THROUGH_BUTTON("left", "through_middle", -38, -19)
+		
+		//clip rectangle to switch from unfocused to focused pixmaps
+		CLIP_SWITCH("bt", "through_left", "through_right", "default", "focused")
+		
+		//CLOSE BUTTON
+		WIN_BT_BASE("close", "through_right", "focus", "border_frame")		
+		//Shine for Close Button
+		BT_SHINE("button_close_SH", "close_unfocused", "bt_clip_default", "right", "border_frame_active")
+		BT_SHINE("button_close_SH2", "close_focused", "bt_clip_focused", "right", "none")
+		
+		//MAXIMIZED BUTTON: Be careful! pixmaps named "maximize" are for UNmaximizeD windows and vice versa.
+		WIN_BT_BASE("maximize", "through_middle", "border_frame", "border_frame")
+		//clip rectangle to switch from maximized to unmaximized pixmaps
+		CLIP_SWITCH_CLIPTO("max_foc", "through_middle", "through_middle", "default", "maximized", "bt_clip_focused")
+		CLIP_SWITCH_CLIPTO("max_unfoc", "through_middle", "through_middle", "default", "maximized", "bt_clip_default")
+		
+		//Shine for Unfocused Maximize Button for UNMAXIMIZED window
+		BT_SHINE("button_unmaximized_SH", "maximize_unfocused", "max_unfoc_clip_default", "middle", "border_frame_active")
+		//Shine for Unfocused Maximize Button for MAXIMIZED window
+		BT_SHINE("button_maximized_SH", "unmaximize_unfocused", "max_unfoc_clip_maximized", "middle", "border_frame_active")
+		//Shine for Focused Maximize Button for UNMAXIMIZED window		
+		BT_SHINE("button_unmaximized_SH2", "maximize_focused", "max_foc_clip_default", "middle", "border_frame_active")
+		//Shine for Focused Maximize Button for MAXIMIZED window
+		BT_SHINE("button_maximized_SH2", "unmaximize_focused", "max_foc_clip_maximized", "middle", "border_frame_active")
+
+		//Minimize BUTTON
+		WIN_BT_BASE("minimize", "through_left", "border_frame", "border_frame")
+		//Shine for minimize Button
+		BT_SHINE("button_minimize_SH", "minimize_unfocused", "bt_clip_default", "left", "border_frame_active")
+		BT_SHINE("button_minimize_SH2", "minimize_focused", "bt_clip_focused", "left", "border_frame_active")	
+	
+  //EVENTS  
+		part { name: "e.event.titlebar"; type: RECT;
+			 description { state: "default" 0.0;
+				rel1.relative: 0.0 0.0;
+				rel1.to: "border";
+				rel2.relative: 1.0 0.0;
+				rel2.to_y: "border";
+				rel2.offset: -1 27;
+				color: TRANSPARENT;
+			 }
+		  }
+		  
+		part { name: "e.event.icon"; type: RECT;
+			description { state: "default" 0.0;
+				rel1.relative: 0.0 0.0;
+				rel2.relative: 0.0 0.0;
+				rel2.offset: 0 28;
+				rel2.to_y: "border";
+				align: 0.0 0.5;
+				aspect: 1.0 1.0; aspect_preference: VERTICAL;
+				color: TRANSPARENT;
+			}
+		}
+		WIN_BT_EVENTS("close")
+		WIN_BT_EVENTS("maximize")
+		WIN_BT_EVENTS("minimize")
+	//EVENT_RESIZE
+		EVENT_RESIZE_ALL
+		part { name: "e.event.maximize2"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "e.event.maximize";
+            rel2.to: "e.event.maximize";
+            color: 0 0 0 0;
+            visible: 0;
+         }
+         description { state: "max" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      part { name: "focus"; type: RECT; repeat_events: 1;
+            description { state: "default" 0.0;
+            rel1.relative: 0.0 0.0;
+            rel1.to: "border";
+            rel1.offset: 1 27;
+            rel2.relative: 1.0 1.0;
+            rel2.to: "border";
+            rel2.offset: -2 -2;
+            color: 0 0 0 0;
+         }
+         description { state: "focused" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+  }
+
+	programs {
+		BT_CLOSE_PROGRAMS
+	   BT_MAX_PROGRAMS
+	   BT_MIN_PROGRAMS
+
+
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.icon";
+         action: SIGNAL_EMIT "elm,action,menu" "elm";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.titlebar";
+         action: SIGNAL_EMIT "elm,action,move,start" "elm";
+      }
+      program {
+         signal: "mouse,up,1"; source: "e.event.titlebar";
+         action: SIGNAL_EMIT "elm,action,move,stop" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.close";
+         action: SIGNAL_EMIT "elm,action,close" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.maximize";
+         action: SIGNAL_EMIT "elm,action,maximize" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.maximize2";
+         action: SIGNAL_EMIT "elm,action,restore" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.minimize";
+         action: SIGNAL_EMIT "elm,action,iconify" "elm";
+      }
+      program {
+         signal: "mouse,down,1"; source: "focus";
+         action: SIGNAL_EMIT "elm,action,focus" "elm";
+      }
+      program {
+         signal: "elm,state,focus,on"; source: "elm";
+         action: STATE_SET "focused" 0.0;
+         transition: SINUSOIDAL 0.1;
+         target: "shadow";
+         target: "focus";
+         after: "focus2";
+      }
+      program { name: "focus2";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.4;
+         target: "shadow";
+      }
+      program {
+         signal: "elm,state,focus,off"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.1;
+         target: "focus";
+         target: "shadow";
+      }
+      
+      //Focus / Unfocus Windows Programs
+      program {
+        signal: "elm,state,focus,on"; source: "elm";
+        action: STATE_SET "focused" 0.0;
+        target: "borderShine";
+        target: "border_maxShine";
+        target: "elm.text.title";
+        target: "through_right";
+		target: "through_middle";
+		target: "through_left";
+        target: "bt_clip_default";
+		target: "bt_clip_focused";
+		target: "button_close_base";
+		target: "button_maximize_base";
+		target: "button_minimize_base";
+      }
+      program {
+        signal: "elm,state,focus,off"; source: "elm";
+        action: STATE_SET "default" 0.0;
+        target: "borderShine";
+        target: "border_maxShine";
+        target: "elm.text.title";
+        target: "through_right";
+		target: "through_middle";
+		target: "through_left";
+		target: "bt_clip_default";
+		target: "bt_clip_focused";
+		target: "button_close_base";
+		target: "button_maximize_base";
+		target: "button_minimize_base";
+      }
+      
+      //Maximize / Unmaximize Switch Programs
+      program {
+         signal: "elm,state,maximized,on"; source: "elm";
+         action: STATE_SET "maximized" 0.0;
+         target: "max_foc_clip_default";
+         target: "max_foc_clip_maximized";
+         target: "max_unfoc_clip_default";
+         target: "max_unfoc_clip_maximized";
+         target: "border";
+         target: "borderShine_clip_default";
+         target: "borderShine_clip_maximized";
+         target: "shadow";
+      }
+      program {
+         signal: "elm,state,maximized,off"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         target: "max_foc_clip_default";
+         target: "max_foc_clip_maximized";
+         target: "max_unfoc_clip_default";
+         target: "max_unfoc_clip_maximized";
+         target: "border";
+         target: "borderShine_clip_default";
+         target: "borderShine_clip_maximized";
+         target: "shadow";
+      }
+      
+ 
+	}
+	}
+
+
+group { name: "elm/ews/decoration/borderless";
+   images.image: "win_shadow.png" COMP;
+   images.image: "win_glow.png" COMP;
+   parts {
+      part { name: "shadow"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "win_shadow.png";
+            color: 0 0 0 125;
+            image.border: 14 14 14 14;
+            image.middle: 0;
+            rel1.offset: -7  -3;
+            rel2.offset: 6 11;
+            fill.smooth: 0;
+         }
+         description { state: "hidden" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "glow"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "win_glow.png";
+            image.border: 9 9 9 9;
+            image.middle: 0;
+            rel1.offset: -5  -5;
+            rel2.offset: 4 4;
+            fill.smooth: 0;
+            color: 255 255 255 0;
+            color_class: "focus";
+            visible: 0;
+         }
+         description { state: "focused" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            visible: 1;
+         }
+      }
+      part { name: "focus"; type: RECT; repeat_events: 1;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+         description { state: "focused" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      program {
+         signal: "mouse,down,1"; source: "focus";
+         action: SIGNAL_EMIT "elm,action,focus" "elm";
+      }
+      program {
+         signal: "elm,state,focus,on"; source: "elm";
+         action: STATE_SET "focused" 0.0;
+         transition: SINUSOIDAL 0.1;
+         target: "glow";
+         target: "focus";
+         after: "focus2";
+      }
+      program { name: "focus2";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.4;
+         target: "glow";
+      }
+      program {
+         signal: "elm,state,focus,off"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.1;
+         target: "focus";
+         target: "glow";
+      }
+   }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//This part it's not complete. This because it is not showed on elm_theme_viewer//
+/*
+group { name: "elm/border/base/default"; inherit: "elm/ews/decoration/default";
+   /*images.image: "win_shadow.png" COMP;
+   images.image: "win_glow.png" COMP;
+   
+   images.image: "vgrad_med_lighter.png" COMP;
+   images.image: "vgrad_med_dark.png" COMP;
+   images.image: "img/bevel_out.png" COMP;
+   images.image: "shine.png" COMP;
+   images.image: "bevel_dark_out.png" COMP;
+   images.image: "sym_close_dark_normal.png" COMP;
+   images.image: "sym_close_dark_selected.png" COMP;
+   images.image: "sym_close_light_normal.png" COMP;
+   images.image: "sym_close_light_selected.png" COMP;
+   images.image: "sym_down_dark_normal.png" COMP;
+   images.image: "sym_down_dark_selected.png" COMP;
+   images.image: "sym_down_light_normal.png" COMP;
+   images.image: "sym_down_light_selected.png" COMP;
+   images.image: "sym_up_dark_normal.png" COMP;
+   images.image: "sym_up_dark_selected.png" COMP;
+   images.image: "sym_up_light_normal.png" COMP;
+   images.image: "sym_up_light_selected.png" COMP;
+   images.image: "glow_round_corners_small.png" COMP;
+   images.image: "knob_round_small_busy.png" COMP;
+   parts {
+      part { name: "focus_clip"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "max" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "elm.swallow.frame_spacer"; type: SWALLOW;
+         clip_to: "focus_clip";
+         description { state: "default" 0.0;
+            rel1.to: "frame";
+            rel2.to: "frame";
+         }
+      }
+      part { name: "frame"; type: SPACER;
+         description { state: "default" 0.0;
+            rel1.offset: 7 5;
+            rel2.offset: -8 -12;
+         }
+         description { state: "max" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 0 0;
+            rel2.offset: -1 -1;
+         }
+      }
+      part { name: "shadow"; mouse_events: 0;
+         clip_to: "focus_clip";
+         description { state: "default" 0.0;
+            image.normal: "win_shadow.png";
+            image.border: 14 14 14 14;
+            image.middle: 0;
+            rel1.offset: -7  -3;
+            rel1.to: "frame";
+            rel2.offset: 6 11;
+            rel2.to: "frame";
+            fill.smooth: 0;
+         }
+         description { state: "hidden" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "glow"; mouse_events: 0;
+         clip_to: "focus_clip";
+         description { state: "default" 0.0;
+            image.normal: "win_glow.png";
+            image.border: 9 9 9 9;
+            image.middle: 0;
+            rel1.offset: -5  -5;
+            rel1.to: "frame";
+            rel2.offset: 4 4;
+            rel2.to: "frame";
+            fill.smooth: 0;
+            color: 255 255 255 0;
+            color_class: "focus";
+            visible: 0;
+         }
+         description { state: "focused" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            visible: 1;
+         }
+      }
+      part { name: "client_clip"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to_y: "elm.swallow.client";
+            rel2.to_y: "elm.swallow.client";
+         }
+      }
+      part { name: "elm.swallow.client"; type: SWALLOW;
+         clip_to: "client_clip";
+         description { state: "default" 0.0;
+            rel1.relative: 0.0 0.0;
+            rel1.to: "border";
+            rel1.offset: 1 27;
+            rel2.relative: 1.0 1.0;
+            rel2.to: "border";
+            rel2.offset: -2 -2;
+         }
+         description { state: "shaded" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "top";
+         description { state: "default" 0.0;
+            color_class: "border_top";
+            image.normal: "vgrad_med_lighter.png";
+            rel1.to: "frame";
+            rel2.to_y: "title2";
+            rel2.to_x: "frame";
+            rel2.offset: -1 -4;
+            fill.smooth: 0;
+            TILED_HORIZ(120)
+         }
+         description { state: "focused" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "vgrad_med_dark.png";
+         }
+      }
+      part { name: "bevel"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/bevel_out.png";
+            image.border: 1 1 1 1;
+            image.middle: 0;
+            rel1.to: "top";
+            rel2.to: "top";
+            fill.smooth: 0;
+         }
+      }
+      part { name: "elm.text.title"; type: TEXT;
+         scale: 1;
+         effect: SHADOW BOTTOM;
+         description { state: "default" 0.0;
+            rel1.to_x: "elm.event.icon";
+         }
+      }
+      part { name: "icon"; type: SPACER;
+         description { state: "default" 0.0;
+            rel1.to: "elm.event.icon";
+            rel2.to: "elm.event.icon";
+         }
+         description { state: "bounce1" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.0 0.15;
+            rel2.relative: 1.0 1.15;
+         }
+         description { state: "bounce2" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.0 -0.15;
+            rel2.relative: 1.0 0.85;
+         }
+      }
+      part { name: "elm.swallow.icon"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to: "icon";
+            rel1.relative: 0.15 0.15;
+            rel2.to: "icon";
+            rel2.relative: 0.85 0.85;
+            rel2.offset: 0 0;
+         }
+      }
+      part { name: "busy_clip"; type: RECT;
+         description { state: "default" 0.0;
+            color: 255 255 255 0;
+            visible: 0;
+         }
+         description { state: "hung" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            visible: 1;
+         }
+      }
+      part { name: "knob"; mouse_events: 0;
+         clip_to: "busy_clip";
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            image.normal: "knob_round_small_busy.png";
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+            max: 20 20;
+            rel1.relative: 1.0 0.0;
+            rel1.offset: 2 -0;
+            rel1.to: "elm.event.icon";
+            rel2.relative: 1.0 1.0;
+            rel2.offset: 2 -1;
+            rel2.to: "elm.event.icon";
+            align: 0.0 0.5;
+            fixed: 1 1;
+         }
+      }
+      part { name: "knob_spinner"; mouse_events: 0;
+         clip_to: "busy_clip";
+         description { state: "default" 0.0;
+            fixed: 1 1;
+            rel1.to: "knob";
+            rel2.to: "knob";
+            image.normal: "glow_round_corners.png";
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "knob";
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+      }
+      part { name: "elm.event.icon"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.relative: 0.0 0.0;
+            rel1.to: "top";
+            rel2.relative: 0.0 1.0;
+            rel2.to: "top";
+            align: 0.0 0.5;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+            color: 0 0 0 0;
+         }
+      }
+   }
+   programs {
+      program {
+         signal: "elm,state,urgent"; source: "elm";
+         action: STATE_SET "bounce1" 0.0;
+         target: "icon";
+         after: "urg1";
+      }
+      program { name: "urg1";
+         action: STATE_SET "bounce2" 0.0;
+         transition: DECELERATE 0.2;
+         target: "icon";
+         after: "urg2";
+      }
+      program { name: "urg2";
+         action: STATE_SET "bounce1" 0.0;
+         transition: ACCELERATE 0.2;
+         target: "icon";
+         after: "urg1";
+      }
+      program {
+         signal: "elm,state,not_urgent"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         target: "icon";
+      }
+      program { name: "spin";
+         signal: "elm,state,hung"; source: "elm";
+         action: STATE_SET "spin" 0.0;
+         transition: LINEAR 1.0;
+         target: "knob_spinner";
+         after: "spin2";
+      }
+      program { name: "spin2";
+         action: STATE_SET "default" 0.0;
+         target: "knob_spinner";
+         after: "spin";
+      }
+      program {
+         signal: "elm,state,hung"; source: "elm";
+         action: STATE_SET "hung" 0.0;
+         transition: SINUSOIDAL 0.25;
+         target: "busy_clip";
+      }
+      program {
+         signal: "elm,state,unhung"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 1.0;
+         target: "busy_clip";
+         after: "spin3";
+      }
+      program { name: "spin3";
+         action: ACTION_STOP;
+         target: "spin";
+         target: "spin2";
+         after: "spin4";
+      }
+      program { name: "spin4";
+         action: STATE_SET "default" 0.0;
+         target: "knob_spinner";
+      }
+      program {
+         signal: "elm,state,shaded"; source: "elm";
+         action: STATE_SET "shaded" 0.0;
+         target: "elm.swallow.client";
+         target: "bottom";
+         target: "bevel2";
+         target: "e.event.resize.bl";
+         target: "e.event.resize.b";
+         target: "e.event.resize.br";
+      }
+
+      program {
+         signal: "elm,state,unshading"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         target: "elm.swallow.client";
+         target: "bottom";
+         target: "bevel2";
+         target: "e.event.resize.bl";
+         target: "e.event.resize.b";
+         target: "e.event.resize.br";
+      }
+      
+      program {
+         signal: "elm,state,maximized"; source: "elm";
+         action: STATE_SET "max" 0.0;
+         target: "elm.swallow.client";
+         target: "frame";
+         target: "focus_clip";
+         target: "bottom";
+         target: "bevel2";
+         target: "e.event.resize.bl";
+         target: "e.event.resize.b";
+         target: "e.event.resize.br";
+      }
+      program {
+         signal: "elm,state,unmaximized"; source: "elm";
+         action: STATE_SET "default" 0.0;
+         target: "elm.swallow.client";
+         target: "frame";
+         target: "focus_clip";
+         target: "bottom";
+         target: "bevel2";
+         target: "e.event.resize.bl";
+         target: "e.event.resize.b";
+         target: "e.event.resize.br";
+      }
+      program {
+         signal: "mouse,down,*"; source: "e.event.close";
+         action: STATE_SET "selected" 0.0;
+         target: "close1";
+         target: "close2";
+      }
+      program {
+         signal: "mouse,up,*"; source: "e.event.close";
+         action: STATE_SET "default" 0.0;
+         target: "close1";
+         target: "close2";
+      }
+      program {
+         signal: "mouse,down,*"; source: "e.event.maximize";
+         action: STATE_SET "selected" 0.0;
+         target: "max1";
+         target: "max2";
+      }
+      program {
+         signal: "mouse,up,*"; source: "e.event.maximize";
+         action: STATE_SET "default" 0.0;
+         target: "max1";
+         target: "max2";
+      }
+      program {
+         signal: "mouse,down,*"; source: "e.event.minimize";
+         action: STATE_SET "selected" 0.0;
+         target: "min1";
+         target: "min2";
+      }
+      program {
+         signal: "mouse,up,*"; source: "e.event.minimize";
+         action: STATE_SET "default" 0.0;
+         target: "min1";
+         target: "min2";
+      }
+
+      program {
+         signal: "mouse,down,1"; source: "e.event.titlebar";
+         action: SIGNAL_EMIT "elm,action,move,start" "elm";
+      }
+      program {
+         signal: "mouse,up,1"; source: "e.event.titlebar";
+         action: SIGNAL_EMIT "elm,action,move,stop" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.minimize";
+         action: SIGNAL_EMIT "elm,action,minimize" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.maximize";
+         action: SIGNAL_EMIT "elm,action,maximize" "elm";
+      }
+      program {
+         signal: "mouse,clicked,1"; source: "e.event.close";
+         action: SIGNAL_EMIT "elm,action,close" "elm";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.t";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.t";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.t";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.t";
+      }
+      program { name: "resize_t_down";
+         signal: "mouse,down,1"; source: "e.event.resize.t";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.t";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.b";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.b";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.b";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.b";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.resize.b";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.b";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.tl";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.tl";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.tl";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.tl";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.resize.tl";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.tl";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.tr";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.tr";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.tr";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.tr";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.resize.tr";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.tr";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.bl";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.bl";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.bl";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.bl";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.resize.bl";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.bl";
+      }
+      program {
+         signal: "mouse,in"; source: "e.event.resize.br";
+         action: SIGNAL_EMIT "elm,action,resize,show" "elm.event.resize.br";
+      }
+      program {
+         signal: "mouse,out"; source: "e.event.resize.br";
+         action: SIGNAL_EMIT "elm,action,resize,hide" "elm.event.resize.br";
+      }
+      program {
+         signal: "mouse,down,1"; source: "e.event.resize.br";
+         action: SIGNAL_EMIT "elm,action,resize,start" "elm.event.resize.br";
+      }
+   }
+}*/

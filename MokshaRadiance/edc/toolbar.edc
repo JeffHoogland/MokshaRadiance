@@ -1,0 +1,282 @@
+group { name: "e/widgets/toolbar";
+   images.image: "img/arrow.png" COMP;
+   images.image: "img/arrow_left.png" COMP;
+   parts {
+      part { name: "base"; type: RECT;
+         description { state: "default" 0.0;
+            color: 255 255 255 255;
+            color_class: "dialog_base";
+         }
+      }
+      part { name: "clipper"; type: RECT;
+         description { state: "default" 0.0;
+            STAY_ON("base")
+         }
+      }
+      part { name: "e.swallow.content"; type: SWALLOW;
+         clip_to: "clipper";
+         description { state: "default" 0.0;
+            rel1.offset: 2 2;
+            rel2.offset: -3 -3;
+//            rel1.to: "clipper";
+//            rel2.to: "clipper";
+         }
+      }
+      part { name: "e.dragable.hbar"; mouse_events: 0;
+         dragable.x: 1 1 0;
+         dragable.y: 0 0 0;
+         dragable.confine: "base";
+         description { state: "default" 0.0;
+             STAY_ON("base")
+             visible: 0;
+          }
+       }
+      part { name: "arrow_clipper"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "hidden" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "arrow1_ev"; type: RECT;
+         scale: 1;
+         clip_to: "arrow_clipper";
+         description { state: "default" 0.0;
+			STAY_ON("base")
+            align: 0.0 0.5;
+            color: 255 255 255 255;
+            color_class: "dialog_base";
+            min: 7 7;
+            max: 7 999;
+         }
+      }
+      part { name: "arrow1"; mouse_events: 0;
+         clip_to: "arrow_clipper";
+         description { state: "default" 0.0;
+            STAY_ON("arrow1_ev")
+            image.normal: "img/arrow_left.png";
+            FIXED_SIZE(5, 7)
+            color_class: "label_text";
+         }
+         description { state: "clicked" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: -2 0;
+         }
+      }
+      part { name: "arrow2_ev"; type: RECT;
+         scale: 1;
+         clip_to: "arrow_clipper";
+         description { state: "default" 0.0;
+            STAY_ON("base")
+            align: 1.0 0.5;
+            color: 255 255 255 255;
+            color_class: "dialog_base";
+            min: 7 7;
+            max: 7 999;
+         }
+      }
+      part { name: "arrow2"; mouse_events: 0;
+         clip_to: "arrow_clipper";
+         description { state: "default" 0.0;
+            STAY_ON("arrow2_ev")
+            image.normal: "img/arrow.png";
+            color_class: "label_text";
+            FIXED_SIZE(5, 7)
+         }
+         description { state: "clicked" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 2 0;
+         }
+      }
+   }
+   programs {
+      program {
+         signal: "e,action,show,hbar"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "arrow_clipper";
+         target: "arrow_clipper";
+      }
+      program {
+         signal: "e,action,hide,hbar"; source: "e";
+         action: STATE_SET "hidden" 0.0;
+         target: "arrow_clipper";
+         target: "arrow_clipper";
+      }
+      
+      program {      
+         signal: "mouse,down,1*"; source: "arrow1_ev";
+         action: SIGNAL_EMIT "e,action,prev" "e";
+         after: "arrow1_repeat";
+      }
+      program { name: "arrow1_repeat";
+         action: SIGNAL_EMIT "e,action,prev" "e";
+         in: 0.3 0.0;
+         after: "arrow1_repeat";
+      }
+      program {
+         signal: "mouse,up,1"; source: "arrow1_ev";
+         action: ACTION_STOP;
+         target: "arrow1_repeat";
+      } 
+      program {
+         signal: "mouse,down,1*"; source: "arrow1_ev";
+         action: STATE_SET "clicked" 0.0;
+         target: "arrow1";
+      }
+      program {
+         signal: "mouse,up,1"; source: "arrow1_ev";
+         action: STATE_SET "default" 0.0;
+         target: "arrow1";
+      }
+
+      program {      
+         signal: "mouse,down,1*"; source: "arrow2_ev";
+         action: SIGNAL_EMIT "e,action,next" "e";
+         after: "arrow2_repeat";
+      }
+      program { name: "arrow2_repeat";
+         action: SIGNAL_EMIT "e,action,next" "e";
+         in: 0.3 0.0;
+         after: "arrow2_repeat";
+      }
+      program {
+         signal: "mouse,up,1"; source: "arrow2_ev";
+         action: ACTION_STOP;
+         target: "arrow2_repeat";
+      } 
+      program {
+         signal: "mouse,down,1*"; source: "arrow2_ev";
+         action: STATE_SET "clicked" 0.0;
+         target: "arrow2";
+      }
+      program {
+         signal: "mouse,up,1"; source: "arrow2_ev";
+         action: STATE_SET "default" 0.0;
+         target: "arrow2";
+      }
+   }
+}
+
+group { name: "e/widgets/toolbar/item";
+
+   parts {
+      part { name: "base"; mouse_events: 0; type: RECT;
+         description { state: "default" 0.0;
+            visible: 0;
+            color: 255 255 255 125;
+            color_class: "focus";
+         }
+         description { state: "hover" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      part { name: "e.swallow.icon"; type: SWALLOW;
+         description { state: "default" 0.0;
+            align: 0.5 0.5;
+            // aspect: 1.0 1.0;
+            // aspect_preference: VERTICAL;
+            rel1.relative: 0.0 0.0;
+            rel1.offset: 2 2;
+            rel2.to_y: "e.text.label";
+            rel2.relative: 1.0 0.0;
+            rel2.offset: -3 -1;
+         }
+         description { state: "noicon" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+            rel1.offset: 2 0;
+            rel2.relative: 1.0 0.0;
+            rel2.offset: -3 -4;
+         }
+      }
+      part { name: "e.text.label"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            STAY_ON("label2")
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans"; size: 12;
+               min: 1 1;
+               ellipsis: -1;
+               align: 0.5 0.5;
+               text_class: "menu_item";
+            }
+            fixed: 0 1;
+         }
+         description { state: "selected" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "label2"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: 3 5;
+            rel2.offset: -5 -3;
+            rel1.relative: 0.0 1.0;
+            align: 0.5 1.0;
+            color: 255 255 255 255;
+            color2: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans:style=Bold"; size: 12;
+              text_source: "e.text.label";
+              min: 1 1;
+               ellipsis: -1;
+              align: 0.5 0.5;
+              text_class: "menu_item";
+            }
+            visible: 0;
+         }
+         description { state: "selected" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      
+      part { name: "event"; type: RECT;
+         ignore_flags: ON_HOLD;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+      }
+   }
+   programs {
+	  OVER("base","event","default","hover") 	   
+      program {
+         signal: "e,icon,disabled"; source: "e";
+         action: STATE_SET "noicon" 0.0;
+         target: "e.swallow.icon";
+//         target: "e.text.label";
+      }
+      program {
+         signal: "e,icon,enabled"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "e.swallow.icon";
+//         target: "e.text.label";
+      }
+      program {
+         signal: "e,state,selected"; source: "e";
+         action: STATE_SET "selected" 0.0;
+         target: "e.text.label";
+         target: "label2";
+
+      }
+      program {
+         signal: "e,state,unselected"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "e.text.label";
+         target: "label2";
+
+      }
+      program {
+         signal: "mouse,up,1"; source: "event";
+         action: SIGNAL_EMIT "e,action,click" "e";
+      }
+   }
+}

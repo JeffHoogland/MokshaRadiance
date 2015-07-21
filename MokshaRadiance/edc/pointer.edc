@@ -1,0 +1,578 @@
+
+/////////////////////////////////////////////////////////////////////////////
+/*** THE DEFAULT MOUSE CURSOR - COLOR ***/
+
+   group {
+      name: "e/pointer/enlightenment/default/color";
+      images {
+         image: "img/pointer.png" COMP;
+         image: "img/pointer_fill.png" COMP;
+         image: "img/pointer_glow.png" COMP;
+      }
+      parts {
+         part {
+            name: "glow";
+            /* this overlay is used to put a white glow
+             * around the pointer, so when the pointer is
+             * idle every now and again it will pulsate
+             * with this glow to just remind you where the
+             * pointer is (if you lose a black-ish
+             * pointer on a black background) */
+            mouse_events: 0;
+            description {
+               state: "default" 0.0;
+               rel1.to: "base";
+               rel2.to: "base";
+               visible: 0;
+               color: 255 255 255 0;
+               image.normal: "img/pointer_glow.png";
+            }
+            description {
+               state: "visible" 0.0;
+               inherit: "default" 0.0;
+               visible: 1;
+               color: 255 255 255 255;
+            }
+            description {
+				state: "glint" 0.0;
+				inherit: "default" 0.0;
+				color_class: "focuùs";
+				color: 255 255 255 255;
+				visible: 1;
+            }
+         }
+         part {
+            name: "base";
+            mouse_events: 0;
+            description {
+               state: "default" 0.0;
+               aspect: 0.71875 0.71875;
+               /* force a specific aspect ratio so
+                * when it gets scaled it wont squash
+                * or stretch */
+               aspect_preference: BOTH;
+               /* both axes control aspect - thus it
+                * will be WITHIN the bounds the axes
+                * of thre part describe */
+               image {
+                  normal: "img/pointer.png";
+               }
+            }
+          }
+         part {
+			name: "fill";
+			mouse_events: 0;
+			description {
+				state: "default" 0.0;
+				rel1.to: "base";
+				rel2.to: "base";
+				color: 0 0 0 255;
+				image.normal: "img/pointer_fill.png";
+			}
+            description {
+				state: "glint" 0.0;
+				inherit: "default" 0.0;
+				color_class: "focus";
+				color: 255 255 255 255;
+            }
+         }
+         part {
+            name: "e.swallow.hotspot";
+            /* this is a "fake" swallow part
+             * that is used by e to determine
+             * the pointer hotspot - or where
+             * the actual mouse events get
+             * reported from on the cursor */
+            type: SWALLOW;
+            description {
+               state: "default" 0.0;
+               visible: 0;
+               rel1 {
+                  /* the hotspot will scale with the cursor here */
+                  to: "base";
+                  relative: 0.27 0.125;
+                  offset: 0 0;
+               }
+               rel2 {
+                  to: "base";
+                  relative: 0.27 0.125;
+                  offset: 0 0;
+               }
+            }
+         }
+      }
+      programs {
+         program {
+            name: "mouse_down";
+            /* called every time e detects a mouse
+             * press */
+            signal: "e,action,mouse,down";
+            source: "e";
+            action: STATE_SET "glint" 0.0;
+            transition: LINEAR 0.2;
+            target: "fill";
+            target: "glow";
+            after: "mouse_down2";
+         }
+         program {
+            name: "mouse_down2";
+            action: STATE_SET "default" 0.0;
+            target: "fill";
+            target: "glow";
+            transition: LINEAR 0.1;
+         }
+         program {
+            name: "mouse_idle";
+            /* called when e thinks the mouse went
+             * idle and isn't moving */
+            signal: "e,state,mouse,idle";
+            source: "e";
+            action: STATE_SET "visible" 0.0;
+            in: 5.0 0.0;
+            transition: SINUSOIDAL 1.0;
+            target: "glow";
+            after: "mouse_idle2";
+         }
+         program {
+            name: "mouse_idle2";
+            action: STATE_SET "default" 0.0;
+            transition: SINUSOIDAL 2.0;
+            target: "glow";
+            after: "mouse_idle";
+         }
+         program {
+            name: "mouse_active";
+            /* called when e sees the mouse become
+             * active again */
+            signal: "e,state,mouse,active";
+            source: "e";
+            action: STATE_SET "default" 0.0;
+            target: "glow";
+            after: "mouse_active2";
+         }
+         program {
+            name: "mouse_active2";
+            action: ACTION_STOP;
+            target: "mouse_idle";
+            target: "mouse_idle2";
+         }
+         // when mouse button is released. not used here
+         //         program { name: "xx";
+         //       signal: "e,action,mouse,up";
+         //       source: "e";
+         //    }
+         // when mouse button is moved. not used here
+         //         program { name: "xx";
+         //       signal: "e,action,mouse,move";
+         //       source: "e";
+         //    }
+         // when mouse wheel is scrolled. not used here
+         //         program { name: "xx";
+         //       signal: "e,action,mouse,wheel";
+         //       source: "e";
+         //    }
+      }
+   }
+
+group { name: "e/pointer/enlightenment/default/mono";
+   images.image: "pointer_mono.png" COMP;
+   parts {
+      part { name: "base"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "pointer_mono.png";
+            min: 32 32;
+            max: 32 32;
+         }
+      }
+      part { name: "e.swallow.hotspot"; type: SWALLOW;
+         description { state: "default" 0.0;
+            visible: 0;
+            rel1.offset: 6 8;
+            rel1.to: "base";
+            rel2.offset: 6 8;
+            rel2.to: "base";
+            rel2.relative: 0.0 0.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_br/color";
+   inherit: "e/pointer/enlightenment/default/color";
+   images.image: "img/mini_box_glow.png" COMP;
+   images.image: "img/mini_box_glow_SH.png" COMP;
+   parts {
+      part { name: "box";
+         insert_after: "glow";
+         description { state: "default" 0.0;
+            image.normal: "img/mini_box_glow.png";
+            image.border: 7 7 7 7;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 0.7 0.7;
+            color_class: "border_frame";
+         }
+         description { state: "p1" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+      part { name: "box_SH";
+		description { state: "default" 0.0;
+			rel1.to: "box";
+			rel2.to: "box";
+			image.normal: "img/mini_box_glow_SH.png";
+			image.border: 7 7 7 7;
+		}
+      }
+   }
+   programs {
+      program { name: "box1";
+         signal: "load"; source: "";
+         action: STATE_SET "p1" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box2";
+      }
+      program { name: "box2";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box1";
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_tr/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 0.7 0.7;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.0;
+            rel2.relative: 1.0 0.7;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_tl/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.6 0.6;
+            rel2.relative: 1.0 1.0;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_bl/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.7 0.3;
+            rel2.relative: 1.0 0.7;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_b/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 0.7;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_t/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.3 0.6;
+            rel2.relative: 1.0 1.0;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_l/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.6 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/resize_r/color";
+   inherit: "e/pointer/enlightenment/resize_br/color";
+   parts {
+      part { name: "box";
+         description { state: "default" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 0.7 1.0;
+         }
+         description { state: "p1" 0.0;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+         }
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/hand/color";
+   inherit: "e/pointer/enlightenment/default/color";
+   images.image: "img/mini_box_glow.png" COMP;
+   images.image: "img/mini_box_glow_SH.png" COMP;
+   parts {
+      part { name: "box";
+         insert_after: "glow";
+         description { state: "default" 0.0;
+            image.normal: "img/mini_box_glow.png";
+            image.border: 7 7 7 7;
+            rel1.relative: 0.5 0.5;
+            rel2.relative: 1.0 1.0;
+            color_class: "border_frame";
+         }
+         description { state: "p1" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.5 0.2;
+            rel2.relative: 1.0 0.7;
+         }
+         description { state: "p2" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.0 0.5;
+            rel2.relative: 0.5 1.0;
+         }
+         description { state: "p3" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.2 0.2;
+            rel2.relative: 0.7 0.7;
+         }
+         description { state: "p4" 0.0;
+            inherit: "default" 0.0;
+            rel1.relative: 0.3 0.5;
+            rel2.relative: 0.8 1.0;
+         }
+      }
+     part { name: "box_SH";
+		description { state: "default" 0.0;
+			STAY_ON("box")
+			image.normal: "img/mini_box_glow_SH.png";
+			image.border: 7 7 7 7;
+   }
+   }
+   programs {
+      program { name: "box1";
+         signal: "load"; source: "";
+         action: STATE_SET "p1" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box2";
+      }
+      program { name: "box2";
+         action: STATE_SET "p2" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box3";
+      }
+      program { name: "box3";
+         action: STATE_SET "p3" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box4";
+      }
+      program { name: "box4";
+         action: STATE_SET "p4" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box5";
+      }
+      program { name: "box5";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box1";
+      }
+   }
+}
+}
+
+group { name: "e/pointer/enlightenment/move/color";
+   inherit: "e/pointer/enlightenment/hand/color";
+   programs {
+      program { name: "move1";
+         signal: "load"; source: "";
+         action: STATE_SET "faded" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "glow";
+         after: "move2";
+      }
+      program { name: "move2";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "glow";
+         after: "move1";
+      }
+   }
+}
+
+
+group { name: "e/pointer/enlightenment/rotate/color";
+   inherit: "e/pointer/enlightenment/default/color";
+   images.image: "img/mini_box_glow.png" COMP;
+   parts {
+      part { name: "box";
+         insert_after: "glow";
+         description { state: "default" 0.0;
+            image.normal: "img/mini_box_glow.png";
+            image.border: 7 7 7 7;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 0.8 0.8;
+            color_class: "border_frame";
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "box";
+         }
+         description { state: "p1" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 30;
+         }
+         description { state: "p2" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: -60;
+         }
+      }
+   }
+   programs {
+      program { name: "box1";
+         signal: "load"; source: "";
+         action: STATE_SET "p1" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box2";
+      }
+      program { name: "box2";
+         action: STATE_SET "p2" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box3";
+      }
+      program { name: "box3";
+         action: STATE_SET "p1" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "box";
+         after: "box2";
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/plus/color";
+   inherit: "e/pointer/enlightenment/default/color";
+   images.image: "img/add_glow_small.png" COMP;
+   parts {
+      part { name: "add";
+         insert_after: "glow";
+         description { state: "default" 0.0;
+            image.normal: "img/add_glow_small.png";
+            aspect: 1.0 1.0; aspect_preference: BOTH;
+            rel1.relative: 0.3 0.3;
+            rel2.relative: 1.0 1.0;
+            align: 1.0 1.0;
+            color_class: "focus";
+            max: 21 21;
+         }
+         description { state: "faded" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 128;
+         }
+      }
+   }
+   programs {
+      program { name: "fade1";
+         signal: "load"; source: "";
+         action: STATE_SET "faded" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "add";
+         after: "fade2";
+      }
+      program { name: "fade2";
+         action: STATE_SET "default" 0.0;
+         transition: SINUSOIDAL 0.5;
+         target: "add";
+         after: "fade1";
+      }
+   }
+}
+
+group { name: "e/pointer/enlightenment/entry/color";
+   images.image: "pointer_entry_bar.png" COMP;
+   images.image: "img/led_dot_white.png" COMP;
+   parts {
+      part { name: "base";
+         description { state: "default" 0.0;
+            image.normal: "pointer_entry_bar.png";
+            max: 15 99999;
+            min: 15 20;
+            image.normal: "pointer_entry_bar.png";
+            image.border: 0 0 10 10;
+            rel1.offset: 0 2;
+            rel2.offset: -1 -3;
+         }
+      }
+      part { name: "e.swallow.hotspot"; type: SWALLOW;
+         description { state: "default" 0.0;
+            visible: 0;
+            rel1.relative: 0.5 0.5;
+            rel1.to: "base";
+            rel2.to: "base";
+            rel2.relative: 0.5 0.5;
+            rel2.offset: 0 0;
+        }
+      }
+      part { name: "shine";
+         description { state: "default" 0.0;
+            rel1.to: "base";
+            rel2.to: "base";
+            image.normal: "img/led_dot_white.png";
+            max: 27 27;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+         }
+      }
+   }
+}

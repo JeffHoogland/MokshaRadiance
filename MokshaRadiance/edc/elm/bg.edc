@@ -1,0 +1,22 @@
+
+group { name: "elm/bg/base/default";
+   parts {
+      part { name: "base"; type: RECT;
+         description { state: "default" 0.0;
+            color_class: "dialog_base";
+         }
+      }
+      part { name: "elm.swallow.rectangle"; type: SWALLOW;
+         description { state: "default" 0.0;
+         }
+      }
+      part { name: "elm.swallow.background"; type: SWALLOW;
+         description { state: "default" 0.0;
+         }
+      }
+      part { name: "elm.swallow.content"; type: SWALLOW;
+         description { state: "default" 0.0;
+         }
+      }
+   }
+}

@@ -1,0 +1,458 @@
+group { name: "e/widgets/slider_horizontal";
+	images.image: "img/slider_bg.png" COMP;
+	images.image: "img/slider_bg_SH.png" COMP;
+	images.image: "img/slider.png" COMP;
+	images.image: "img/slider0.png" COMP;
+	images.image: "img/slider2.png" COMP;
+	images.image: "img/slider3.png" COMP;
+   parts {
+      part { name: "bg"; type: RECT;
+         scale: 1;
+         description { state: "default" 0.0;
+            min: 42 21;
+            color: 0 0 0 0;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            rel2.relative: 0.0 1.0;
+            rel2.offset: -2 -1;
+            rel2.to_x: "e.text.label";
+         }
+      }
+      part { name: "base"; mouse_events: 0;
+         description { state: "default" 0.0;
+            STAY_ON("bg")
+            image.normal: "img/slider_bg.png";
+            image.border: 5 5 0 0;
+            fill.smooth: 0;
+            min: 8 5;
+            max: 99999 5;
+            color_class: "dialog_base";
+            fixed: 0 1;
+         }
+      }
+      
+      part { name: "base_active"; mouse_events: 0;
+		description { state: "default" 0.0;
+            rel1.to: "base";
+            rel2.to_x: "slider";
+            rel2.to_y: "base";
+            rel2.relative: 0.5 1.0;
+            image.normal: "img/slider_bg.png";
+            image.border: 4 4 0 0;
+            fill.smooth: 0;
+            min: 8 5;
+            max: 99999 5;
+            color_class: "focus";
+            fixed: 0 1;
+         }
+        description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			color_class: "none";
+			color: 0 0 0 60;
+        }
+      }
+      
+      PART_SHINE("base", "base", "img/slider_bg_SH.png", 4 4 0 0)
+      
+      part { name: "clip1"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "e.text.label"; type: TEXT; mouse_events: 0;
+         clip_to: "clip1";
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: -1 0;
+            rel1.relative: 1.0 0.0;
+            rel2.offset: -1 -1;
+            align: 1.0 0.5;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "slider_text";
+            text { font: "Sans"; size: 12;
+              min: 0 1;
+              align: 0.0 0.5;
+              text_class: "slider";
+              ellipsis: -1;
+            }
+            visible: 0;
+            max: 0 0;
+            fixed: 1 1;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            text.min: 1 1;
+            visible: 1;
+            max: 99999 99999;
+         }
+      }
+      part { name: "clip2"; type: RECT;
+         description { state: "default" 0.0;
+            visible: 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      part { name: "label2"; type: TEXT; mouse_events: 0;
+         clip_to: "clip2";
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.to: "e.text.label";
+            rel2.to: "e.text.label";
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "slider_text_disabled";
+            text { font: "Sans"; size: 12;
+              text_source: "e.text.label";
+              align: 0.0 0.5;
+              text_class: "slider";
+            }
+            visible: 0;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      
+      part { name: "slider";
+         description { state: "default" 0.0;
+            rel1.offset: -1 -1;
+            rel1.to: "e.dragable.slider";
+            rel2.offset: 0 0;
+            rel2.to: "e.dragable.slider";
+            image.normal: "img/slider.png";
+            FIXED_SIZE(14, 18)
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/slider0.png";
+         }
+         description { state: "over" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/slider2.png";
+		 }
+         description { state: "clicked" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/slider3.png";
+         }
+      }
+      part { name: "e.swallow.bar"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to_x: "bg";
+            rel1.offset: 1 0;
+            rel2.to_x: "bg";
+            rel2.offset: -2 -1;
+         }
+      }
+      part { name: "e.dragable.slider"; type: RECT;
+         scale: 1;
+         dragable.x: 1 1 0;
+         dragable.y: 0 0 0;
+         dragable.confine: "bg";
+         description { state: "default" 0.0;
+            FIXED_SIZE(14, 18)
+            rel1.relative: 0.5 0.0;
+            rel1.to_x: "bg";
+            rel2.relative: 0.5 1.0;
+            rel2.to_x: "bg";
+            color: 0 0 0 0;
+         }
+      }
+      /* Nice part, when the widget is disabled, this part stay above
+       * all the widget to get the mouse signals */
+      part { name: "event"; type: RECT;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+            visible: 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+   }
+   programs {
+	   OVER("slider","e.dragable.slider","default","over")
+      program {
+         signal: "mouse,down,1"; source: "e.dragable.slider";
+         action: STATE_SET "clicked" 0.0;
+         target: "slider";
+      }
+      program {
+         signal: "mouse,up,1"; source: "e.dragable.slider";
+         action: STATE_SET "default" 0.0;
+         target: "slider";
+      }
+      program {
+         signal: "e,action,show,label"; source: "e";
+         action: STATE_SET "active" 0.0;
+         target: "bg";
+         target: "e.text.label";
+         target: "label2";
+      }
+      program {
+         signal: "e,action,hide,label"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "bg";
+         target: "e.text.label";
+         target: "label2";
+      }
+      program {
+         signal: "e,state,disabled"; source: "e";
+         action: STATE_SET "disabled" 0.0;
+         target: "event";
+         target: "base_active";
+         target: "slider";
+         target: "clip1";
+         target: "clip2";
+      }
+      program {
+         signal: "e,state,enabled"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "event";
+         target: "base_active";
+         target: "slider";
+         target: "clip1";
+         target: "clip2";
+      }
+   }
+}
+
+group { name: "e/widgets/slider_vertical";
+  	images.image: "img/slider_v_bg.png" COMP;
+	images.image: "img/slider_bg_v_SH.png" COMP;
+	images.image: "img/slider_v.png" COMP;
+	images.image: "img/slider0_v.png" COMP;
+	images.image: "img/slider2_v.png" COMP;
+	images.image: "img/slider3_v.png" COMP;
+   
+   parts {
+      part { name: "bg"; type: RECT;
+         scale: 1;
+         description { state: "default" 0.0;
+            min: 21 42;
+            color: 0 0 0 0;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            rel2.relative: 1.0 0.0;
+            rel2.offset: -1 -2;
+            rel2.to_y: "e.text.label";
+         }
+      }
+      
+      part { name: "base"; mouse_events: 0;
+         description { state: "default" 0.0;
+            STAY_ON("bg")
+            image.normal: "img/slider_v_bg.png";
+            image.border: 0 0 1 1;
+            fill.smooth: 0;
+            min: 4 8;
+            max: 4 99999;
+            color_class: "dialog_base";
+            fixed: 1 0;
+         }
+      }
+      
+      part { name: "base_active"; mouse_events: 0;
+		description { state: "default" 0.0;
+            rel1.to_x: "base";
+            rel1.to_y: "slider";
+            rel1.relative: 0.0 0.5;
+            rel2.to: "base";
+            image.normal: "img/slider_v_bg.png";
+            image.border: 0 0 1 1;
+            fill.smooth: 0;
+            min: 4 8;
+            max: 4 99999;
+            color_class: "focus";
+            fixed: 1 0;
+         }
+        description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			color_class: "none";
+			color: 0 0 0 60;
+        }
+      }
+      PART_SHINE("base", "base", "img/slider_bg_v_SH.png", 0 0 1 1)      
+      part { name: "clip1"; type: RECT;
+         description { state: "default" 0.0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "e.text.label"; type: TEXT; mouse_events: 0;
+         clip_to: "clip1";
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: 0 -1;
+            rel1.relative: 0.0 1.0;
+            rel2.offset: -1 -1;
+            align: 0.5 1.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "slider_text";
+            text { font: "Sans"; size: 12;
+              min: 1 0;
+              align: 0.5 0.5;
+              text_class: "slider";
+              ellipsis: -1;
+            }
+            visible: 0;
+            max: 0 0;
+            fixed: 1 1;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            text.min: 1 1;
+            visible: 1;
+            max: 99999 99999;
+         }
+      }
+      part { name: "clip2"; type: RECT;
+         description { state: "default" 0.0;
+            visible: 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      part { name: "label2"; type: TEXT; mouse_events: 0;
+         clip_to: "clip2";
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.to: "e.text.label";
+            rel2.to: "e.text.label";
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "slider_text_disabled";
+            text { font: "Sans"; size: 12;
+              text_source: "e.text.label";
+              align: 0.5 0.5;
+              text_class: "slider";
+            }
+            visible: 0;
+         }
+         description { state: "active" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+      
+      part { name: "slider";
+         description { state: "default" 0.0;
+            rel1.offset: -1 -1;
+            rel1.to: "e.dragable.slider";
+            rel2.offset: 0 0;
+            rel2.to: "e.dragable.slider";
+            image.normal: "img/slider_v.png";
+            FIXED_SIZE(18, 14)
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/slider0_v.png";
+         }
+         description { state: "over" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/slider2_v.png";
+		 }
+         description { state: "clicked" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/slider3_v.png";
+         }
+      }
+      
+      part { name: "e.swallow.bar"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.to_x: "bg";
+            rel1.offset: 0 1;
+            rel2.to_x: "bg";
+            rel2.offset: -1 -2;
+         }
+      }
+      part { name: "e.dragable.slider"; type: RECT;
+         scale: 1;
+         dragable.x: 0 0 0;
+         dragable.y: -1 1 0;
+         dragable.confine: "bg";
+         description { state: "default" 0.0;
+            FIXED_SIZE(18, 14)
+            rel1.relative: 0.0 0.5;
+            rel1.to_x: "bg";
+            rel2.relative: 1.0 0.5;
+            rel2.to_x: "bg";
+            color: 0 0 0 0;
+         }
+      }
+      part { name: "event"; type: RECT;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+            visible: 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+   }
+   programs {
+       OVER("slider","e.dragable.slider","default","over")
+      program {
+         signal: "mouse,down,1"; source: "e.dragable.slider";
+         action: STATE_SET "clicked" 0.0;
+         target: "slider";
+      }
+      program {
+         signal: "mouse,up,1"; source: "e.dragable.slider";
+         action: STATE_SET "default" 0.0;
+         target: "slider";
+      }
+      program {
+         signal: "e,action,show,label"; source: "e";
+         action: STATE_SET "active" 0.0;
+         target: "bg";
+         target: "e.text.label";
+         target: "label2";
+      }
+      program {
+         signal: "e,action,hide,label"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "bg";
+         target: "e.text.label";
+         target: "label2";
+      }
+      program {
+         signal: "e,state,disabled"; source: "e";
+         action: STATE_SET "disabled" 0.0;
+         target: "event";
+         target: "base_active";
+         target: "slider";
+         target: "clip1";
+         target: "clip2";
+      }
+      program {
+         signal: "e,state,enabled"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "event";
+         target: "base_active";
+         target: "slider";
+         target: "clip1";
+         target: "clip2";
+      }
+   }
+}

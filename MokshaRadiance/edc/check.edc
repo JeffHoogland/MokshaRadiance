@@ -1,0 +1,188 @@
+group { name: "e/widgets/check";
+  images.image: "img/check_base.png" COMP;
+   images.image: "img/check0_SH.png" COMP;
+   images.image: "img/check1_SH.png" COMP;
+   images.image: "img/check3_SH.png" COMP;
+   images.image: "img/check_sel0_SH.png" COMP;
+   images.image: "img/check_sel1_SH.png" COMP;
+   images.image: "img/check_sel3_SH.png" COMP;
+   parts {
+      part { name: "base"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/check_base.png";
+            align: 0.0 0.5;
+            min: 18 18;
+            max: 18 18;
+            fixed: 1 1;
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			visible: 0;
+         }
+         description { state: "disabled" 0.0;
+			inherit: "default" 0.0;
+			color_class: "ilist_item_base";
+         }
+      }
+      part { name: "base_selected"; mouse_events: 0;
+		clip_to: "check_disable_clip_default";
+		description { state: "default" 0.0;
+			image.normal: "img/check_base.png";
+            align: 0.0 0.5;
+            min: 18 18;
+            max: 18 18;
+            fixed: 1 1;
+            color_class: "ilist_item_base";
+         }
+         description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			color_class: "focus";
+         }
+      }
+      
+      CLIP_SWITCH("check_disable", "base", "base", "default", "disabled")
+      CLIP_SWITCH_CLIPTO("check", "base", "base", "default", "selected", "check_disable_clip_default")
+      
+      part { name: "check_disabled_SH"; mouse_events: 0;
+		clip_to: "check_disable_clip_disabled";
+		description { state: "default" 0.0;
+			image.normal: "img/check0_SH.png";
+			STAY_ON("base")
+		}
+		description { state: "selected" 0.0;
+			inherit: "default" 0.0;
+			image.normal: "img/check_sel0_SH.png";
+		}
+      }     
+      part { name: "check_SH"; mouse_events: 0;
+		clip_to: "check_clip_default";
+		 description { state: "default" 0.0;
+			image.normal: "img/check1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check3_SH.png";
+         }
+	}
+	part { name: "check_sel_SH"; mouse_events: 0;
+		clip_to: "check_clip_selected";
+		 description { state: "default" 0.0;
+			image.normal: "img/check_sel1_SH.png";
+			STAY_ON("base")
+		 }
+         description { state: "prelight" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check_sel3_SH.png";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/check_sel0_SH.png";
+         }
+	}
+	
+      part { name: "e.text.label"; type: TEXT;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: 2 2;
+            rel1.to_x: "base";
+            rel1.relative: 1.0 0.0;
+            rel2.offset: -3 -3;
+           color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text";
+            text { font: "Sans"; size: 12;
+               min: 1 1;
+               ellipsis: -1;
+               align: 0.0 0.5;
+               text_class: "check_button";
+            }
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "check_text_disabled";
+         }
+      }
+      part { name: "event"; type: RECT;
+         ignore_flags: ON_HOLD;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+   }
+   programs {
+		OVER("check_SH","event","default","prelight")
+		OVER("check_sel_SH","event","default","prelight")
+      program {
+         signal: "e,state,checked"; source: "e";
+         action: STATE_SET "selected" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "check_clip_default";
+         target: "check_clip_selected";
+         target: "check_disabled_SH";
+      }
+      program {
+         signal: "e,state,unchecked"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "base";
+         target: "base_selected";
+         target: "check_clip_default";
+         target: "check_clip_selected";
+         target: "check_disabled_SH";
+      }
+      program {
+         signal: "mouse,up,1"; source: "event";
+         action: SIGNAL_EMIT "e,action,toggle" "";
+      }
+      program {
+         signal: "e,state,disabled"; source: "e";
+         action: STATE_SET "disabled" 0.0;
+         target: "base";
+         target: "check_disable_clip_disabled";
+         target: "check_disable_clip_default";
+         target: "e.text.label";
+      }
+      program {
+         signal: "e,state,enabled"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "base";
+         target: "check_disable_clip_disabled";
+         target: "check_disable_clip_default";
+         target: "e.text.label";
+      }
+   }
+}
+
+group { name: "e/widgets/check_icon";
+   inherit: "e/widgets/check";
+   parts {
+      part { name: "e.swallow.icon"; type: SWALLOW;
+         insert_before: "event";
+         //clip_to: "clip";
+         description { state: "default" 0.0;
+            rel1.offset: 2 2;
+            rel1.relative: 1.0 0.0; 
+            rel1.to_x: "base";
+            rel2.offset: 2 -3;
+            rel2.relative: 1.0 1.0;
+            rel1.to_x: "base";
+            align: 0.0 0.5;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+         }
+      }
+      part { name: "e.text.label";
+         description { state: "default" 0.0;
+            rel1.to_x: "e.swallow.icon";
+         }
+      }
+   }
+}

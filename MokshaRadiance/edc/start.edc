@@ -1,0 +1,71 @@
+group { name: "e/modules/start/main";
+parts {	
+	part { name: "shadow";
+		description { state: "default" 0.0;
+			aspect: (100/127) (100/127);
+			aspect_preference: BOTH;
+            image.normal: "img/logo_small_glow.png";
+            color: 0 0 0 200;
+            max: 100 127;
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "icon";
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+	}
+	part { name: "icon";
+         description { state: "default" 0.0;
+			aspect: (100/127) (100/127);
+			aspect_preference: BOTH;
+            image.normal: "img/logo_small.png";
+            color_class: "focus";
+            max: 100 127;
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "icon";
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+      }
+      part { name: "icon2";
+         description { state: "default" 0.0;
+			aspect: (100/127) (100/127);
+            STAY_ON("icon")
+            image.normal: "img/logo_small_SH.png";
+			max: 100 127;
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "icon";
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+      }
+    }
+	programs {
+      program {
+         signal: "e,state,focused";
+         source: "e";
+         transition: LINEAR 1.0;
+         action: STATE_SET "spin" 0.0;
+         target: "icon";
+         target: "icon2";
+         target: "shadow";
+      }
+      program {
+         signal: "e,state,unfocused";
+         source: "e";
+         transition: LINEAR 0.0;
+         action: STATE_SET "default" 0.0;
+         target: "icon";
+         target: "icon2";
+         target: "shadow";
+      }
+   }
+}

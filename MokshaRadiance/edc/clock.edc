@@ -1,0 +1,784 @@
+group { name: "e/modules/clock/digital";
+	script {
+		public do_seconds, do_24h, tick_timer, horizontal;
+
+		public clock_cb(val) {
+			new year, month, day, yearday, weekday, hour, minute;
+			new Float:second;
+			new v, dosec, do24h, tim;
+			new buf[32], bhour[3], bminute[3], bsecond[4], bampm[3];
+
+			date(year, month, day, yearday, weekday, hour, minute, second);
+
+			dosec = get_int(do_seconds);
+			do24h = get_int(do_24h);
+
+			if (do24h) {
+				strcat(bampm, "");
+				if (hour < 10)
+					snprintf(bhour, sizeof(bhour), "0%d", hour);
+				else
+					snprintf(bhour, sizeof(bhour), "%d", hour);
+
+			} else {
+				v = hour % 12;
+
+				if (hour >= 12)
+					strcat(bampm, "pm");
+				else
+					strcat(bampm, "am");
+
+				if (v == 0)
+					v = 12;
+
+				if (v < 10)
+					snprintf(bhour, sizeof(bhour), "0%d", v);
+				else
+					snprintf(bhour, sizeof(bhour), "%d", v);
+			}
+
+			if (minute < 10)
+				snprintf(bminute, sizeof(bminute), "0%d", minute);
+			else
+				snprintf(bminute, sizeof(bminute), "%d", minute);
+
+			if (dosec) {
+				v = round(second);
+				if (v < 10)
+					snprintf(bsecond, sizeof(bsecond), ":0%d", v);
+				else
+					snprintf(bsecond, sizeof(bsecond), ":%d", v);
+			} else
+				strcat(bsecond, "");
+
+			snprintf(buf, sizeof(buf), "%s:%s%s%s",
+			         bhour, bminute, bsecond, bampm);
+			set_text(PART:"time", buf);
+
+			if (dosec) {
+				v = round(second);
+				tim = timer(1.0 - (second - v), "clock_cb", 1);
+			} else {
+				tim = timer(60.0 - (second), "clock_cb", 1);
+			}
+			set_int(tick_timer, tim);
+		}
+
+		public restart_clock() {
+			new tim;
+			tim = get_int(tick_timer);
+			if (tim) {
+				cancel_timer(tim);
+				set_int(tick_timer, 0);
+			}
+			clock_cb(0);
+		}
+	}
+
+	parts {
+		part { name: "time-area";
+			type: RECT;
+			description { state: "default" 0.0;
+			color: TRANSPARENT;
+			}
+			description { state: "show-date" 0.0;
+				inherit: "default" 0.0;
+				rel2 {
+					relative: 1.0 0.0;
+					to: "e.text.today";
+				}
+			}
+		}
+		part { name: "time";
+			type: TEXT;
+			effect: SHADOW;
+			scale: 1;
+			description { state: "default" 0.0;
+				color: 255 255 255 255;
+				color3: 255 255 255 255;
+				color_class: "module_label";
+				rel1.to: "time-area";
+				rel2.to: "time-area";
+				text {
+					text_class: "clock";
+					size: 14;
+					fit: 1 1;
+					min: 1 0;
+					size_range: 9 72;
+					text: "--:--";
+					align: 0.5 0.5;
+					ellipsis: -1;
+				}
+			}
+			description { state: "horizontal" 0.0;
+				inherit: "default" 0.0;
+				text {
+					fit: 0 1;
+					min: 1 0;
+				}
+			}
+			description { state: "vertical" 0.0;
+				inherit: "default" 0.0;
+				text {
+					fit: 1 0;
+					min: 0 1;
+				}
+			}
+		}
+		part { name: "e.text.today";
+			type: TEXT;
+			effect: SHADOW;
+			scale: 1;
+			description { state: "default" 0.0;
+				color: 255 255 255 255;
+				color3: 255 255 255 255;
+				color_class: "module_label";
+				align: 0.5 1.0;
+				min: 5 8;
+				max: 9999 30;
+				rel1 {
+					relative: 0.0 0.9;
+				}
+				rel2 {
+					relative: 1.0 1.0;
+					offset: -1 -1;
+				}
+				text {
+					text_class: "clock";
+					size: 11;
+					fit: 1 1;
+					min: 1 0;
+					size_range: 8 72;
+					align: 0.5 1.0;
+					text: "Tod, 12/30/2011";
+					ellipsis: -1;
+				}
+				visible: 0;
+			}
+			description { state: "show-date" 0.0;
+				inherit: "default" 0.0;
+				visible: 1;
+			}
+		}
+
+		part { name: "event";
+			type: RECT;
+			mouse_events: 1;
+			description { state: "default" 0.0;
+				color: 0 0 0 0;
+			}
+		}
+	}
+
+	programs {
+		program { name: "init";
+			signal: "load";
+			source: "";
+			script {
+				clock_cb(0);
+			}
+		}
+		program { name: "today,show";
+			signal: "e,state,date,on";
+			source: "e";
+			script {
+            set_state(PART:"time-area", "show-date", 0.0);
+            set_state(PART:"e.text.today", "show-date", 0.0);
+            restart_clock();
+			}
+		}
+		program { name: "today,hide";
+			signal: "e,state,date,off";
+			source: "e";
+			script {
+			set_state(PART:"time-area", "default", 0.0);
+			set_state(PART:"e.text.today", "default", 0.0);
+            restart_clock();
+			}
+		}
+
+		program { name: "secon";
+			signal: "e,state,seconds,on";
+			source: "e";
+			script {
+				set_int(do_seconds, 1);
+				restart_clock();
+			}
+		}
+		program { name: "secoff";
+			signal: "e,state,seconds,off";
+			source: "e";
+			script {
+				set_int(do_seconds, 0);
+				restart_clock();
+			}
+		}
+		program { name: "24h";
+			signal: "e,state,24h,on";
+			source: "e";
+			script {
+				set_int(do_24h, 1);
+				restart_clock();
+			}
+		}
+		program { name: "12h";
+			signal: "e,state,24h,off";
+			source: "e";
+			script {
+				set_int(do_24h, 0);
+				restart_clock();
+			}
+		}
+		program { name: "horizontal";
+			signal: "e,state,horizontal";
+			source: "e";
+			action: STATE_SET "horizontal" 0.0;
+			target: "time";
+			after: "horizontal-eval";
+		}
+		program { name: "horizontal-eval";
+			script {
+				set_int(horizontal, 1);
+			}
+		}
+		program { name: "vertical";
+			signal: "e,state,vertical";
+			source: "e";
+			action: STATE_SET "vertical" 0.0;
+			target: "time";
+			after: "vertical-eval";
+		}
+		program { name: "vertical-eval";
+			script {
+				set_int(horizontal, 0);
+			}
+		}
+	}
+   }
+
+group { name: "e/modules/clock/main";
+   set { name: "clock_base.png";
+		image { image: "img/clock_base.png" COMP; size: 0 0 144 144; }
+		image { image: "img/clock_base_big.png" COMP; size: 145 145 160 160; }
+	}
+   images.image: "img/clock_min144.png" COMP;
+   images.image: "img/clock_hour144.png" COMP;
+
+   min: 16 16;
+   max: 160 160;
+   script {
+      public do_seconds, tick_timer;
+      
+         public clock_cb(val) {
+            new year, month, day, yearday, weekday, hour, minute;
+            new Float:second;
+            new v, dosec, tim;
+            
+            date(year, month, day, yearday, weekday, hour, minute, second);
+            dosec = get_int(do_seconds);
+            if (dosec) {
+               v = round(second);
+               tim = timer(1.0 - (second - v), "clock_cb", 1);
+               
+               custom_state(PART:"seconds", "default", 0.0);
+               set_state_val(PART:"seconds", STATE_MAP_ROT_Z, (v * 360.0) / 60.0);
+               set_state(PART:"seconds", "custom", 0.0);
+               
+
+            }
+            else {
+               tim = timer(60.0 - (second), "clock_cb", 1);
+            }
+            set_int(tick_timer, tim);
+            
+            custom_state(PART:"minutes", "default", 0.0);
+            set_state_val(PART:"minutes", STATE_MAP_ROT_Z, (float(minute) * 360.0) / 60.0);
+            set_state(PART:"minutes", "custom", 0.0);
+            
+            custom_state(PART:"hours", "default", 0.0);
+            set_state_val(PART:"hours", STATE_MAP_ROT_Z, ((float(hour) + (float(minute) / 60.0)) * 360.0) / 12.0);
+            set_state(PART:"hours", "custom", 0.0);
+            
+         }
+   }
+   parts {   
+      part { name: "event"; type: RECT;
+         description { state: "default" 0.0;
+            color: 0 0 0 0;
+         }
+      }
+      part { name: "base";
+         description { state: "default" 0.0;
+            rel1.relative: (25/380) (25/380);
+            rel2.relative: (365/380) (365/380);
+            aspect: 1.0 1.0; aspect_preference: BOTH;
+            image.normal: "clock_base.png";
+         }
+      }
+      
+      part { name: "seconds"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/clock_min144.png";
+            color: 255 0 0 255;
+            rel1.to: "base";
+            rel2.to: "base";
+            map {
+               on: 1;
+               rotation.center: "base";
+            }
+         }
+         description { state: "hidden" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+      }
+      part { name: "minutes"; mouse_events: 0;
+         description { state: "default" 0.0000;
+            color: 255 255 255 255;
+            image.normal: "img/clock_min144.png";
+            color_class: "label_text";
+            rel1.to: "base";
+            rel2.to: "base";
+            map {
+               on: 1;
+               rotation.center: "base";
+            }
+         }
+      }
+      part { name: "hours"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/clock_hour144.png";
+            color: 20 20 20 255;
+            rel1.to: "base";
+            rel2.to: "base";
+            map {
+               on: 1;
+               rotation.center: "base";
+            }
+         }
+      }      
+   }
+   programs {
+      program {
+         signal: "load"; source: "";
+         script {
+            clock_cb(0);
+         }
+      }
+      program {
+         signal: "e,state,seconds,on"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "seconds";
+         after: "sec2";
+      }
+      program { name: "sec2";
+         script {
+            new tim;
+            
+            set_int(do_seconds, 1);
+            tim = get_int(tick_timer);
+            if (tim) {
+               cancel_timer(tim);
+               set_int(tick_timer, 0);
+            }
+            clock_cb(0);
+         }
+      }
+      program {
+         signal: "e,state,seconds,off"; source: "e";
+         action: STATE_SET "hidden" 0.0;
+         target: "seconds";
+         after: "sec3";
+      }
+      program { name: "sec3";
+         script {
+            new tim;
+            
+            set_int(do_seconds, 0);
+            tim = get_int(tick_timer);
+            if (tim) {
+               cancel_timer(tim);
+               set_int(tick_timer, 0);
+            }
+            clock_cb(0);
+         }
+      }
+   }
+}
+
+group { name: "e/modules/clock/calendar/dayname";
+   parts {
+      part { name: "e.text.label"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans"; size: 12;
+               text: "WWe";
+               min: 1 1;
+               align: 0.5 0.5;
+               text_class: "module_small";
+               ellipsis: -1;
+            }
+         }
+         description { state: "weekend" 0.0;
+            inherit: "default" 0.0;
+            text.font: "Sans:style=Bold";
+         }
+      }
+   }
+   programs {
+      program {
+         signal: "e,state,weekend"; source: "e";
+         action: STATE_SET "weekend" 0.0;
+         target: "e.text.label";
+      }
+      program {
+         signal: "e,state,weekday"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "e.text.label";
+      }
+   }
+}
+
+group { name: "e/modules/clock/calendar/day";
+   script {
+      public day_state = 0;
+      evalstate() {
+         new vv = get_int(day_state);
+         
+         if (vv & 2)
+           {
+              set_state(PART:"e.text.label", "today", 0.0);
+              set_state(PART:"label2", "today", 0.0);
+           }
+         else if (vv & 4)
+           {
+              set_state(PART:"e.text.label", "hidden", 0.0);
+              set_state(PART:"label2", "default", 0.0);
+           }
+         else if (vv & 1)
+           {
+              set_state(PART:"e.text.label", "weekend", 0.0);
+              set_state(PART:"label2", "default", 0.0);
+           }
+         else
+           {
+              set_state(PART:"e.text.label", "default", 0.0);
+              set_state(PART:"label2", "default", 0.0);
+           }
+      }
+   }
+   parts {
+      part { name: "e.text.label"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans"; size: 10;
+               text: "00";
+               min: 1 1;
+               align: 0.5 0.5;
+               ellipsis: -1;
+            }
+         }
+         description { state: "today" 0.0;
+            inherit: "default" 0.0;
+            visible: 0;
+         }
+         description { state: "weekend" 0.0;
+            inherit: "default" 0.0;
+            text.font: "Sans:style=Bold";
+         }
+         description { state: "hidden" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 125;
+            color3: 255 255 255 125;
+         }
+      }
+      part { name: "label2"; type: TEXT; mouse_events: 0;
+         effect: GLOW;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.offset: -3 -3;
+            rel1.to: "e.text.label";
+            rel2.offset: 2 1;
+            rel2.to: "e.text.label";
+            color: 255 255 255 255;
+            color2: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "focus";
+            text { font: "Sans:style=Bold"; size: 10;
+               text_source: "e.text.label";
+               min: 1 1;
+               ellipsis: -1;
+               align: 0.5 0.5;
+            }
+            visible: 0;
+         }
+         description { state: "today" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
+      }
+   }
+   programs {
+      program {
+         signal: "e,state,weekend"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv | 1);
+            evalstate();
+         }
+      }
+      program {
+         signal: "e,state,weekday"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv & (~1));
+            evalstate();
+         }
+      }
+      
+      program {
+         signal: "e,state,today"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv | 2);
+            evalstate();
+         }
+      }
+      program {
+         signal: "e,state,someday"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv & (~2));
+            evalstate();
+         }
+      }
+      
+      program {
+         signal: "e,state,hidden"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv | 4);
+            evalstate();
+         }
+      }
+      program {
+         signal: "e,state,visible"; source: "e";
+         script {
+            new vv = get_int(day_state);
+            set_int(day_state, vv & (~4));
+            evalstate();
+         }
+      }
+   }
+}
+
+group { name: "e/modules/clock/calendar";
+
+   images.image: "img/arrow_left.png" COMP;
+   images.image: "img/arrow.png" COMP;
+   parts {
+      part { name: "e.text.month"; type: TEXT;
+         effect: SHADOW BOTTOM;
+         mouse_events: 1;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 0 1;
+            align: 0.0 0.0;
+            rel1.to_x: "prev";
+            rel1.relative: 1.0 0.0;
+            rel2.relative: 1.0 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans:style=Bold"; size: 12;
+               text: "000000000000";
+               align: 0.0 0.5;
+               min: 0 1;
+               text_class: "module_normal";
+            }
+         }
+      }
+      part { name: "e.text.year"; type: TEXT; mouse_events: 0;
+         effect: SHADOW BOTTOM;
+         scale: 1;
+         description { state: "default" 0.0;
+            fixed: 0 1;
+            align: 1.0 0.0;
+            rel1.relative: 0.0 0.0;
+            rel2.to_x: "next";
+            rel2.relative: 0.0 0.0;
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text { font: "Sans:style=Bold"; size: 12;
+               text: "0000";
+               align: 1.0 0.5;
+               min: 0 1;
+               text_class: "module_normal";
+            }
+         }
+      }
+      part { name: "previm"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/arrow_left.png";
+            rel1.to: "prev";
+            rel2.to: "prev";
+            color_class: "label_text";
+            FIXED_SIZE(5,7)
+         }
+         description { state: "pressed" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: -2 0;
+         }
+      }
+      part { name: "prev"; type: RECT;
+         description { state: "default" 0.0;
+            align: 0.0 0.5;
+            color: 0 0 0 0;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+            rel1.to_y: "e.text.month";
+            rel1.relative: 0.0 0.0;
+            rel2.to_y: "e.text.month";
+            rel2.relative: 0.0 1.0;
+         }
+         program { name: "prev_down";
+            signal: "mouse,down,1*"; source: "prev";
+            action: STATE_SET "pressed" 0.0;
+            target: "previm";
+         }
+         program { name: "prev_up";
+            signal: "mouse,up,1"; source: "prev";
+            action: STATE_SET "default" 0.0;
+            target: "previm";
+         }
+         program { name: "prev_clicked";
+            signal: "mouse,clicked,1*"; source: "prev";
+            action: SIGNAL_EMIT "e,action,prev" "";
+         }
+      }
+      part { name: "nextim"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/arrow.png";
+            rel1.to: "next";
+            rel2.to: "next";
+            color_class: "label_text";
+            FIXED_SIZE(5,7)
+         }
+         description { state: "pressed" 0.0;
+            inherit: "default" 0.0;
+            rel1.offset: 2 0;
+         }
+      }
+      part { name: "next"; type: RECT;
+         description { state: "default" 0.0;
+            align: 1.0 0.5;
+            color: 0 0 0 0;
+            aspect: 1.0 1.0; aspect_preference: VERTICAL;
+            rel1.to_y: "e.text.month";
+            rel1.relative: 1.0 0.0;
+            rel2.to_y: "e.text.month";
+            rel2.relative: 1.0 1.0;
+         }
+         program { name: "next_down";
+            signal: "mouse,down,1"; source: "next";
+            action: STATE_SET "pressed" 0.0;
+            target: "nextim";
+         }
+         program { name: "next_up";
+            signal: "mouse,up,1"; source: "next";
+            action: STATE_SET "default" 0.0;
+            target: "nextim";
+         }
+         program { name: "next_clicked";
+            signal: "mouse,clicked,1"; source: "next";
+            action: SIGNAL_EMIT "e,action,next" "";
+         }
+      }
+      part { name: "sel"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.relative: 0.0 1.0;
+            rel1.offset: 0 0;
+            rel1.to: "e.table.daynames";
+            rel2.offset: -1 1;
+            rel2.to: "e.table.daynames";
+            max: 9999 1;
+            color: 255 255 255 255;
+            color_class: "label_text";
+         }
+      }
+      
+      part { name: "e.table.daynames"; type: TABLE;
+         description { state: "default" 0.0;
+            fixed: 0 1;
+            align: 0.5 0.0;
+            rel1.to_y: "e.text.month";
+            rel1.relative: 0.0 1.0;
+            rel1.offset: 2 2;
+            rel2.to_y: "e.text.month";
+            rel2.relative: 1.0 1.0;
+            rel2.offset: -3 2;
+            step: 7 1;
+            table { homogeneous: TABLE;
+               padding: 1 1;
+               align: 0.5 0.5;
+               min: 1 1;
+            }
+         }
+         table {
+            items {
+#define D(x) \
+item { \
+   position: x 0; \
+   span: 1 1; \
+   source: "e/modules/clock/calendar/dayname"; \
+   weight: 1.0 1.0; \
+   align: -1.0 -1.0; \
+}
+               D(0) D(1) D(2) D(3) D(4) D(5) D(6)
+#undef D                 
+            }
+         }
+      }
+      part { name: "e.table.days"; type: TABLE;
+         description { state: "default" 0.0;
+            rel1.to_y: "e.table.daynames";
+            rel1.relative: 0.0 1.0;
+            rel1.offset: 2 2;
+            rel2.offset: -3 -3;
+            step: 7 5;
+            table { homogeneous: TABLE;
+               padding: 1 1;
+               align: 0.5 0.5;
+               min: 1 1;
+            }
+         }
+         table {
+            items {
+#define D(x, y) \
+item { \
+   position: x y; \
+   span: 1 1; \
+   source: "e/modules/clock/calendar/day"; \
+   weight: 1.0 1.0; \
+   align: -1.0 -1.0; \
+}
+               D(0, 0) D(1, 0) D(2, 0) D(3, 0) D(4, 0) D(5, 0) D(6, 0)
+               D(0, 1) D(1, 1) D(2, 1) D(3, 1) D(4, 1) D(5, 1) D(6, 1)
+               D(0, 2) D(1, 2) D(2, 2) D(3, 2) D(4, 2) D(5, 2) D(6, 2)
+               D(0, 3) D(1, 3) D(2, 3) D(3, 3) D(4, 3) D(5, 3) D(6, 3)
+               D(0, 4) D(1, 4) D(2, 4) D(3, 4) D(4, 4) D(5, 4) D(6, 4)
+               D(0, 5) D(1, 5) D(2, 5) D(3, 5) D(4, 5) D(5, 5) D(6, 5)
+#undef D
+            }
+         }
+      }
+   }
+}

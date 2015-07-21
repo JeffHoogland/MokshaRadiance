@@ -1,0 +1,56 @@
+group { name: "e/widgets/color_well";
+
+   parts {
+      part { name: "bg";
+         description { state: "default" 0.0;
+            STAY_ON("e.swallow.content")
+            rel1.offset: -2 -2;
+            rel2.offset: 1 1;
+            min: 18 18;
+            image.normal: "img/scroll_shadow.png";
+            image.border: 1 1 1 1;
+            image.middle: 0;
+         }
+      }
+      part { name: "clipper"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "e.swallow.content";
+            rel2.to: "e.swallow.content";
+         }
+         description { state: "disabled" 0.0;
+            inherit: "default" 0.0;
+            color: 255 255 255 64;
+         }
+      }
+      part { name: "e.swallow.content"; type: SWALLOW;
+         clip_to: "clipper";
+         description { state: "default" 0.0;
+            rel1.offset: 3 3;
+            rel2.offset: -4 -4;
+         }
+      }
+      part { name: "event"; type: RECT;
+		description {state: "default" 0.0;
+			STAY_ON("bg")
+			color: TRANSPARENT;
+		}
+      }
+      
+   }
+   programs {
+      program {
+         signal: "mouse,clicked,1"; source: "event";
+         action: SIGNAL_EMIT "e,action,click" "";
+      }
+      program {
+         signal: "e,state,disabled"; source: "e";
+         action: STATE_SET "disabled" 0.0;
+         target: "clipper";
+      }
+      program {
+         signal: "e,state,enabled"; source: "e";
+         action: STATE_SET "default" 0.0;
+         target: "clipper";
+      }
+   }
+}

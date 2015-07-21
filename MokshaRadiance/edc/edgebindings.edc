@@ -1,0 +1,280 @@
+group { name: "e/modules/conf_edgebindings/selection";
+      
+   styles {
+      style { name: "edge_binding_style";
+         base: "font=Sans font_size=12 text_class=tb_plain align=center color=#ffff wrap=word";
+         tag: "br" "\n";
+         tag: "hilight" "+ font=Sans:style=Bold text_class=tb_light";
+      }
+   }
+   parts {
+      part { name: "bg"; type: RECT;
+         description { state: "default" 0.0;
+            rel1.to: "e.swallow.background";
+            rel2.to: "e.swallow.background";
+            color: 255 255 255 255;
+            color_class: "dialog_base";
+         }
+      }
+      part { name: "e.swallow.background";
+         type: SWALLOW;
+         description { state: "default" 0.0;
+            min: 160 120;
+            fixed: 1 1;
+            rel1.offset: 4 4;
+            rel2.relative: 0.4 1.0;
+            rel2.offset: -2 -5;
+         }
+      }
+      
+      part { name: "shadow"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/scroll_shadow.png";
+            image.border: 2 2 2 2;
+            image.middle: 0;
+            rel1.to: "bg";
+            rel1.offset: -2 -2;
+            rel2.to: "bg";
+            rel2.offset: 1 1;
+            fill.smooth: 0;
+            color: 255 255 255 255;
+         }
+      }
+      part {
+            name: "e.edge.top_left";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 0 0;
+                  offset: 20 20;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+            color_class: "focus";
+            }
+         }
+         part {
+            name: "e.edge.top";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  offset: 20 0;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 1 0;
+                  offset: -20 15;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+               color_class: "border_frame";
+            }
+         }
+         part {
+            name: "e.edge.top_right";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 1 0;
+                  offset: -20 0;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 1 0;
+                  offset: 0 20;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+            color_class: "focus";
+            }
+         }
+         part {
+            name: "e.edge.right";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 1 0;
+                  offset: -15 20;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 1 1;
+                  offset: 0 -20;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+               color_class: "border_frame";
+            }
+         }
+        
+         part {
+            name: "e.edge.bottom";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 0 1;
+                  offset: 20 -15;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 1 1;
+                  offset: -20 0;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+               color_class: "border_frame";
+            }
+         }
+         part {
+            name: "e.edge.bottom_left";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 0 1;
+                  offset: 0 -20;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 0 1;
+                  offset: 20 0;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+            color_class: "focus";
+            }
+         }
+         part {
+            name: "e.edge.left";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 0 0;
+                  offset: 0 20;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 0 1;
+                  offset: 15 -20;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+               color_class: "border_frame";
+            }
+         }
+          part {
+            name: "e.edge.bottom_right";
+            type: RECT;
+            description {
+               state: "default" 0.0;
+               rel1 {
+                  relative: 1 1;
+                  offset: -20 -20;
+                  to: "e.swallow.background";
+               }
+               rel2 {
+                  relative: 1 1;
+                  offset: 0 0;
+                  to: "e.swallow.background";
+               }
+               color: 255 255 255 150;
+            color_class: "focus";
+            }
+         }
+      part { name: "e.text.selection"; type: TEXT; mouse_events: 0;
+         effect: SOFT_SHADOW BOTTOM_RIGHT;
+         description { state: "default" 0.0;
+            rel1.relative: 0.5 0.5;
+            rel1.to: "e.swallow.background";
+            rel2.relative: 0.5 0.5;
+            rel2.to: "e.swallow.background";
+            color: 255 255 255 255;
+            color3: 0 0 0 128;
+            fixed: 1 1;
+            text { font: "Sans"; size: 12;
+               text_class: "label";
+               min: 1 1;
+               ellipsis: -1;
+            }
+         }
+      }
+      part { name: "e.box"; type: BOX;
+         description { state: "default" 0.0;
+            rel1 {
+               relative: 1 1;
+               offset: 50 4;
+               to_x: "e.edge.bottom_right";
+               to_y: "e.text.description";
+            }
+            rel2 {
+               offset: -50 24;
+               to_y: "e.text.description";
+            }
+            box { layout: "horizontal";
+               padding: 0 0;
+               align: 0.5 0.5;
+               min: 0 1;
+            }
+         }
+      }
+      
+      part { name: "e.swallow.check"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1 {
+relative: 1 1;
+offset: 5 4;
+to_x: "e.swallow.background";
+to_y: "e.text.description";
+            }
+            rel2 {
+relative: 1 1;
+offset: -5 24;
+to_y: "e.text.description";
+            }
+         }
+      }
+      part { name: "e.swallow.slider"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1 {
+               relative: 1 1;
+               offset: 5 1;
+               to_x: "e.edge.bottom_right";
+               to_y: "e.box";
+            }
+            rel2 {
+               offset: -5 -1;
+            }
+         }
+      }
+      part { name: "e.text.description"; type: TEXTBLOCK; mouse_events: 0;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1 {
+               relative: 1 0;
+               offset: 80 4;
+               to_x: "e.edge.right";
+            }
+            rel2 {
+               offset: -80 -45;
+            }
+            color: 255 255 255 255;
+            color3: 255 255 255 255;
+            color_class: "label_text";
+            text {
+               style: "edge_binding_style";
+               min: 1 1;
+               ellipsis: -1;
+            }
+         }
+      }
+   }
+}

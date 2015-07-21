@@ -1,0 +1,51 @@
+/* * * * * * * * * * * * * * * * 
+ *  -The Radiance Config File- *
+ *							   *
+ * Here the configuration that *
+ * you can't do with Esettings *
+ * * * * * * * * * * * * * * * */
+ 
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Very Important: you have to recompile the theme *
+ * after editing these settings!                   *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/// These stuffs can be changed also with Settings -> Look -> Colors, but
+/// won't affect the Elementary widget
+//Background of Window
+#define BGWIN 242\ 241\ 240
+
+//Focus Color
+#define SELECTED 240\ 119\ 70 //ZonColor Green 136\ 187\ 85
+
+//Color of foreground: e.g.: labels on buttons, on menus
+#define FG_COLOR 76\ 76\ 76
+
+//The color of the Window Border
+#define RADIANCE_COLOR 223\ 215\ 207
+
+//Color of selected foreground
+#define SEL_FG_COLOR 255\ 255\ 255
+
+//Color of insensitive foreground
+#define INSENSITIVE_FG_COLOR 152\ 148\ 144
+
+//Color of EDJ Tooltips
+#define TOOLTIP_COLOR 0\ 0\ 0\ 255
+
+//Color of Label on EDJ Tooltips
+#define TOOLTIP_FG_COLOR 255\ 255\ 255
+
+//ELM Tooltip Opacity: they take RADIANCE_COLOR as background color
+#define TOOLTIP_OPACITY 200
+
+//Color of error on background entry (used only on desklock at the moment)
+#define ERROR_BG_COLOR 237\ 123\ 123
+///
+
+///Panel settings
+//Systray Background Color for Xembed
+#define RADCONF_SYS_BG "223 215 207" //ZonColor Green "199 218 174"
+
+//Pixmap showed on hidden shelf
+#define RADCONF_SHELF_HID_SIZE 2

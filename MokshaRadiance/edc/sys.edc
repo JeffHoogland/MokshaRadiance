@@ -1,0 +1,100 @@
+group { name: "e/sys/logout";
+   alias: "e/sys/halt";
+   alias: "e/sys/reboot";
+   alias: "e/sys/suspend";
+   alias: "e/sys/hibernate";
+   data.item: "borderless" "1";
+   
+   images.image: "img/logo_small.png" COMP;
+   images.image: "img/logo_small_SH.png" COMP;
+   images.image: "img/menu_bg_SH.png" COMP;
+
+   styles {   
+      style { name: "sys_style";
+         base: "font=Sans font_size=12 text_class=tb_plain align=left color=#ffff wrap=word";
+         tag: "br"      "\n";
+         tag: "b"       "+ font=Sans:style=Bold";
+         tag: "hilight" "+ font=Sans:style=Bold text_class=tb_light";
+         tag: "urgent"  "+ font=Sans:style=Bold color=#f40f style=outline outline_color=#ff000080";
+         tag: "title"   "+ font=Sans:style=Bold font_size=16 underline=on underline_color=#3399ff";
+      }
+   }
+   parts {
+      part { name: "bg"; mouse_events: 0; type: RECT;
+         description { state: "default" 0.0;
+            color_class: "dialog_base";
+         }
+      }
+      part { name: "bvl"; mouse_events: 0;
+		description { state: "default" 0.0;
+			image.normal: "img/menu_bg_SH.png";
+			image.border: 2 2 2 2;
+			STAY_ON("bg")
+		}
+      }
+      part { name: "e.textblock.message"; type: TEXTBLOCK;
+         scale: 1;
+         description { state: "default" 0.0;
+            rel1.relative: 1.0 0.0;
+            rel1.to_x: "logo";
+            rel1.offset: 8 8;
+            rel2.offset: -9 -9;
+            min: 20 80;
+            color_class: "label_text";
+            text { style: "sys_style";
+               min: 1 1;
+               ellipsis: -1;
+            }
+         }
+      }
+      part { name: "logo"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/logo_small.png";
+            rel1.relative: 0.0 0.0;
+            rel1.offset: 7 7;
+            rel2.relative: 0.0 1.0;
+            rel2.offset: 7 -8;
+            align: 0.0 0.5;
+            FIXED_SIZE(50, 63)
+            color_class: "focus";
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "logo";
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+      }
+      part { name: "logo_SH"; mouse_events: 0;
+         description { state: "default" 0.0;
+            STAY_ON("logo")
+            image.normal: "img/logo_small_SH.png";
+            map.on: 1;
+            map.smooth: 1;
+            map.rotation.center: "logo_SH";
+            fixed: 1 1;
+         }
+         description { state: "spin" 0.0;
+            inherit: "default" 0.0;
+            map.rotation.z: 360;
+         }
+      }
+   }
+   programs {
+      program { name: "spin";
+         signal: "show"; source: "";
+         action: STATE_SET "spin" 0.0;
+         transition: LINEAR 1.5;
+         target: "logo";
+         target: "logo_SH";
+         after: "spin2";
+      }
+      program { name: "spin2";
+         action: STATE_SET "default" 0.0;
+         target: "logo";
+         target: "logo_SH";
+         after: "spin";
+      }
+   }
+}

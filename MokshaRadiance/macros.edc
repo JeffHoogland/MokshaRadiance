@@ -1,0 +1,112 @@
+#define ASPECT_FILL(_ASPECT) \
+   aspect: _ASPECT _ASPECT; aspect_preference: NONE;
+#define TILED_PATTERN(_WIDTH, _HEIGHT) \
+   fill { size { relative: 0.0 0.0; offset: _WIDTH _HEIGHT; } }
+#define TILED_HORIZ(_WIDTH) \
+   fill { size { relative: 0.0 1.0; offset: _WIDTH 0; } }
+#define FIXED_SIZE(_WIDTH, _HEIGHT) \
+   min: _WIDTH _HEIGHT; max: _WIDTH _HEIGHT; fixed: 1 1;
+#define STAY_ON(PART)	\
+	rel1.to: PART; rel2.to: PART;
+#define PART_SHINE(NAME, STAY, IMAGE, BORDER)\
+	part { name: NAME"_SH";					\
+		description { state: "default" 0.0;	\
+			image.normal: IMAGE;			\
+			image.border: BORDER;			\
+			STAY_ON(STAY)					\
+		}									\
+	}
+#define PART_SHINE_CLIPTO(NAME, STAY, IMAGE, BORDER, CLIPTO)\
+	part { name: NAME"_SH";					\
+		clip_to: CLIPTO;					\
+		description { state: "default" 0.0;	\
+			image.normal: IMAGE;			\
+			image.border: BORDER;			\
+			STAY_ON(STAY)					\
+		}									\
+	}	
+	
+	
+
+//Over Program
+#define OVER(TARGET,SOURCE,STATE_DEF,STATE_OVR)	\
+program {	name: "over_"TARGET;				\
+			signal: "mouse,in";					\
+			source: SOURCE;						\
+			action: STATE_SET STATE_OVR 0.0;	\
+			transition: LINEAR 0.0;				\
+			target: TARGET;						\
+		}										\
+program {	name: "over_"TARGET"_out";			\
+			signal: "mouse,out";				\
+			source: SOURCE;						\
+			action: STATE_SET STATE_DEF 0.0;	\
+			transition: LINEAR 0.0;				\
+			target: TARGET;						\
+		}
+
+//Simple Clip Visible/Unvisible Toggle
+#define CLIP_TOGGLE(NAME, TO1, TO2, STATE_VISIBLE, STATE_UNVISIBLE)		\
+part { name: NAME"_clip"; type: RECT;									\
+			description { state: STATE_UNVISIBLE 0.0;					\
+				rel1.to: TO1;											\
+				rel2.to: TO2;											\
+				visible: 0;												\
+			}															\
+			description { state: STATE_VISIBLE 0.0;						\
+				inherit: STATE_UNVISIBLE 0.0;							\
+				visible: 1;												\
+			}															\
+		}
+		
+//Clip Switch
+#define CLIP_SWITCH(NAME, TO1, TO2, STATE_VISIBLE,STATE_UNVISIBLE)		\
+part { name: NAME"_clip_"STATE_VISIBLE; type: RECT;						\
+			description { state: STATE_VISIBLE 0.0;						\
+				rel1.to: TO1;											\
+				rel2.to: TO2;											\
+				visible: 1;												\
+			}															\
+			description { state: STATE_UNVISIBLE 0.0;					\
+				inherit: STATE_VISIBLE 0.0;								\
+				visible: 0;												\
+			}															\
+		}																\
+part { name: NAME"_clip_"STATE_UNVISIBLE; type: RECT;					\
+			description { state: STATE_VISIBLE 0.0;						\
+				rel1.to: TO1;											\
+				rel2.to: TO2;											\
+				visible: 0;												\
+			}															\
+			description { state: STATE_UNVISIBLE 0.0;					\
+				inherit: STATE_VISIBLE 0.0;								\
+				visible: 1;												\
+			}															\
+		}
+
+//Clip Switch with "clip_to" option
+#define CLIP_SWITCH_CLIPTO(NAME, TO1, TO2, STATE_VISIBLE, STATE_UNVISIBLE, CLIP_TO)	\
+part { name: NAME"_clip_"STATE_VISIBLE; type: RECT;						\
+			clip_to: CLIP_TO;											\
+			description { state: STATE_VISIBLE 0.0;						\
+				rel1.to: TO1;											\
+				rel2.to: TO2;											\
+				visible: 1;												\
+			}															\
+			description { state: STATE_UNVISIBLE 0.0;					\
+				inherit: STATE_VISIBLE 0.0;								\
+				visible: 0;												\
+			}															\
+		}																\
+part { name: NAME"_clip_"STATE_UNVISIBLE; type: RECT;					\
+			clip_to: CLIP_TO;											\
+			description { state: STATE_VISIBLE 0.0;						\
+				rel1.to: TO1;											\
+				rel2.to: TO2;											\
+				visible: 0;												\
+			}															\
+			description { state: STATE_UNVISIBLE 0.0;					\
+				inherit: STATE_VISIBLE 0.0;								\
+				visible: 1;												\
+			}															\
+		}

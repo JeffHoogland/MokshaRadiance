@@ -1,0 +1,14 @@
+group { name: "e/desktop/background";
+   images.image: "img/background.jpg" COMP;
+   data {item: "style" "4";
+item: "noanimation" "1";
+}
+   parts {
+      part { name: "bg"; mouse_events: 0;
+         description { state: "default" 0.0;
+            image.normal: "img/background.jpg";
+            image.scale_hint: STATIC;
+         }
+      }
+   }
+}

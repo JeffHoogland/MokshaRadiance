@@ -1,0 +1,88 @@
+group { name: "e/widgets/configure/main";
+   parts {
+      part { name: "base"; type: RECT;
+         description { state: "default" 0.0;
+            color_class: "dialog_base";
+            color: 255 255 255 255;
+         }
+      }
+      part { name: "e.swallow.content"; type: SWALLOW;
+         description { state: "default" 0.0;
+            rel1.offset: 4 4;
+            rel1.to_x: "base";
+            rel2.relative: 1.0 0.0;
+            rel2.offset: -5 -8;
+            rel2.to_y: "e.swallow.button";
+         }
+      }
+      part { name: "e.swallow.button"; type: SWALLOW;
+         description { state: "default" 0.0;
+            align: 0.5 1.0;
+            rel1.relative: 0.5 1.0;
+            rel1.offset: 0 -5;
+            rel2.relative: 0.5 1.0;
+            rel2.offset: -1 -5;
+            fixed: 1 1;
+         }
+      }
+   }
+}
+
+group { name: "e/modules/conf/main";
+
+   images.image: "img/conf_icon.png" COMP;
+   
+   min: 16 16;
+   max: 144 144;
+   parts {
+
+		part { name: "icon";
+			description { state: "default" 0.0;
+			image.normal: "img/conf_icon.png";
+			max: 144 144;
+			rel1.offset: 1 1;
+            rel2.offset: -2 -2;
+			}
+		}      
+        part { name: "icon_overlay"; mouse_events: 1;
+         description { state: "default" 0.0;
+            aspect: 1.0 1.0; aspect_preference: BOTH;
+            rel1.offset: 1 1;
+            rel2.offset: -2 -2;
+            image.normal: "img/conf_icon.png";
+         }
+         description { state: "huge" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+            rel1.relative: -2.0  -2.0;
+            rel2.relative: 3.0  3.0;
+            color: 255 255 255 0;
+         }
+      }      
+   }
+   programs {
+      program {
+         signal: "mouse,clicked,1*"; source: "icon_overlay";
+         action: SIGNAL_EMIT "e,action,conf" "";
+      }
+      
+      program { name: "go_big";
+         action: STATE_SET "visible" 0.0;
+         target: "icon_overlay";
+      }
+      program { name: "go_big2";
+      signal: "mouse,in"; source: "icon_overlay";
+         action: STATE_SET "huge" 0.0;
+         transition: LINEAR 0.5;
+         target: "icon_overlay";
+         after: "go_big";
+      }
+      program { name: "go_big_stop";
+		signal: "mouse,out"; source: "icon_overlay";
+		action: ACTION_STOP;
+		target: "go_big";
+		target: "go_big2";
+		after: "go_big";
+      }
+   }
+}

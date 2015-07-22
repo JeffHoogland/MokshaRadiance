@@ -18,7 +18,7 @@
 	item: "theme/name"		"Radiance";
 	item: "theme/version"	"beta";
 	item: "theme/author"	"Alberto 'Duma' Verdoja";
-	item: "gtk-theme"		"Radiance";
+	item: "gtk-theme"		"Radiance-Graphite";
 	// theme api version. from 1.10 on we will check version to avoid
 	// compat issues
 	item: "version"			"110";

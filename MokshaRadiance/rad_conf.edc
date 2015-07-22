@@ -16,13 +16,13 @@
 #define BGWIN 242\ 241\ 240
 
 //Focus Color
-#define SELECTED 240\ 119\ 70 //ZonColor Green 136\ 187\ 85
+#define SELECTED 115\ 124\ 153 //ZonColor Green 136\ 187\ 85
 
 //Color of foreground: e.g.: labels on buttons, on menus
 #define FG_COLOR 76\ 76\ 76
 
 //The color of the Window Border
-#define RADIANCE_COLOR 223\ 215\ 207
+#define RADIANCE_COLOR 215\ 215\ 215
 
 //Color of selected foreground
 #define SEL_FG_COLOR 255\ 255\ 255
@@ -45,7 +45,7 @@
 
 ///Panel settings
 //Systray Background Color for Xembed
-#define RADCONF_SYS_BG "223 215 207" //ZonColor Green "199 218 174"
+#define RADCONF_SYS_BG "215 215 215" //ZonColor Green "199 218 174"
 
 //Pixmap showed on hidden shelf
 #define RADCONF_SHELF_HID_SIZE 2

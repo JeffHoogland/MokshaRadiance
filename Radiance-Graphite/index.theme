@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Radiance-Graphite
+Comment=Ubuntu Radiance theme, In New Colors By RAVEfinity 14.04 Build
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Radiance-Graphite
+MetacityTheme=Radiance-Graphite
+IconTheme=ubuntu-mono-light
+CursorTheme=DMZ-White
+ButtonLayout=close,minimize,maximize:

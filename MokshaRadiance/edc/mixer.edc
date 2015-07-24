@@ -2,19 +2,19 @@
 set {															\
 			name: "audio-volume-"VOLUME;						\
 			image {												\
-				image: "img/audio-volume-"VOLUME"_24.png" COMP;	\
+				image: "img/audio-volume-"VOLUME".png" COMP;	\
 				size: 0 0 24 24;								\
 			}													\
 			image {												\
-				image: "img/audio-volume-"VOLUME"_64.png" COMP;	\
+				image: "img/audio-volume-"VOLUME".png" COMP;	\
 				size: 25 25 64 64;								\
 			}													\
 			image {												\
-				image: "img/audio-volume-"VOLUME"_128.png" COMP;	\
+				image: "img/audio-volume-"VOLUME".png" COMP;	\
 				size: 65 65 128 128;							\
 			}													\
 			image {												\
-				image: "img/audio-volume-"VOLUME"_256.png" COMP;	\
+				image: "img/audio-volume-"VOLUME".png" COMP;	\
 				size: 129 129 256 256;							\
 			}													\
 		}

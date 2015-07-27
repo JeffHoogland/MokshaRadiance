@@ -1124,7 +1124,7 @@ group { name: "e/modules/everything/gadget";
    parts {
       part { name: "icon";
          description { state: "default" 0.0;
-            aspect: (100/127) (100/127); aspect_preference: BOTH;
+            aspect: 1 1; aspect_preference: BOTH;
             image.normal: "img/logo_small.png";
             color_class: "focus";
             max: 100 127;

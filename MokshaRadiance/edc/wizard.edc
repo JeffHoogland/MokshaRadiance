@@ -34,7 +34,7 @@ group { name: "e/wizard/main";
          description { state: "default" 0.0;
          fixed: 1 1;
             image.normal: "img/logo_small.png";
-            aspect: (100/127) (100/127);
+            aspect: 1 1;
             FIXED_SIZE(50, 64)
 	    rel1.relative: 0.0 1.0;
             rel1.offset: 4 -5;
@@ -54,7 +54,7 @@ group { name: "e/wizard/main";
 	part { name: "logo_SH";
 		clip_to: "busy_clip";
          description { state: "default" 0.0;
-			aspect: (100/127) (100/127);
+			aspect: 1 1;
 			FIXED_SIZE(50, 64)
             STAY_ON("logo")
             image.normal: "img/logo_small_SH.png";

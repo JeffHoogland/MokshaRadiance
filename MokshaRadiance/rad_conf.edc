@@ -22,7 +22,7 @@
 #define FG_COLOR 76\ 76\ 76
 
 //The color of the Window Border
-#define RADIANCE_COLOR 215\ 215\ 215
+#define RADIANCE_COLOR 223\ 223\ 223
 
 //Color of selected foreground
 #define SEL_FG_COLOR 255\ 255\ 255

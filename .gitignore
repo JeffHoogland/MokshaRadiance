@@ -1,0 +1,3 @@
+#ignora i file .fuse*
+.fuse_hidden*
+*.edj

@@ -62,6 +62,43 @@ IC("media_player/stop",    "icon_stop.png",    16, 0);
 IC("media_player/eject",   "icon_eject.png",   16, 0);
 IC("media_player/volume",  "icon_volume.png",  16, 0);
 IC("media_player/mute",    "icon_mute.png",    16, 0);
+
+IC("user-home",            "icon_home.png",             16, 0);
+IC("user-trash",           "icon_delete.png",           16, 0);
+
+IC("view-close",           "icon_close.png",            16, 0);
+IC("view-refresh",         "icon_refresh.png",          16, 0);
+
+IC("window-close",         "icon_close.png",            16, 0);
+
+IC("document-close",       "icon_close.png",            16, 0);
+IC("document-edit",        "icon_edit.png",             16, 0);
+
+IC("dialog-info",          "icon_info.png",             16, 0);
+IC("dialog-close",         "icon_close.png",            16, 0);
+
+IC("arrow-up-left",        "icon_arrow_up_left.png",    16, 0); /* */
+IC("arrow-up-right",       "icon_arrow_up_right.png",   16, 0); /* */
+IC("arrow-down-left",      "icon_arrow_down_left.png",  16, 0); /* */
+IC("arrow-down-right",     "icon_arrow_down_right.png", 16, 0); /* */
+
+IC("edit-delete",          "icon_delete.png",           16, 0);
+IC("edit-find",            "icon_search.png",           16, 0);
+
+IC("application-chat",     "icon_chat.png",             16, 0); /* */
+IC("application-clock",    "icon_clock.png",            16, 0); /* */
+
+IC("media-seek-forward",   "icon_forward.png",          16, 0);
+IC("media-seek-backward",  "icon_rewind.png",           16, 0);
+IC("media-skip-forward",   "icon_next.png",             16, 0);
+IC("media-skip-backward",  "icon_prev.png",             16, 0);
+IC("media-playback-pause", "icon_pause.png",            16, 0);
+IC("media-playback-start", "icon_play.png",             16, 0);
+IC("media-playback-stop",  "icon_stop.png",             16, 0);
+IC("media-eject",          "icon_eject.png",            16, 0);
+
+IC("audio-volume",         "icon_volume.png",           16, 0); /* */
+IC("audio-volume-muted",   "icon_mute.png",             16, 0);
 #undef IC
 
 #define IC(Name, File, Min, Max) \

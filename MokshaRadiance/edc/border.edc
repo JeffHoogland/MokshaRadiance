@@ -137,7 +137,7 @@
 		part { name: "border"; type: IMAGE;	mouse_events: 0;				\
 		  description { state: "default" 0.0;								\
 			  image { normal: "img/border_max.png";								\
-				  border: 10 10 27 1;	middle: 0;							\
+				  border: 10 10 27 3;	middle: 0;							\
 			  }																\
 			  fill.smooth: 0;												\
 			  color: 255 255 255 255;										\
@@ -154,7 +154,7 @@
 		  description { state: "default" 0.0;								\
 			  STAY_ON("border")												\
 			  image { normal: "img/border_maxShine.png";						\
-				  border: 10 10 27 1;	middle: 0;							\
+				  border: 10 10 27 3;	middle: 0;							\
 			  }																\
 			  fill.smooth: 0;												\
 			  color_class: "border_frame_active";			  				\
@@ -162,7 +162,7 @@
 		  description { state: "focused" 0.0;								\
 			  inherit: "default" 0.0;										\
 			  image { normal: "img/border_maxShine2.png";						\
-				  border: 10 10 27 1;	middle: 0;							\
+				  border: 10 10 27 3;	middle: 0;							\
 			  }																\
 			  fill.smooth: 0;												\
 		  }																	\
@@ -172,7 +172,7 @@
 		  description { state: "default" 0.0;								\
 			  STAY_ON("border")												\
 			  image { normal: "img/border_maxShine.png";					\
-				  border: 10 10 27 1;	middle: 0;							\
+				  border: 10 10 27 3;	middle: 0;							\
 			  }																\
 			  fill.smooth: 0;												\
 			  color_class: "border_frame_active";			  				\
@@ -180,7 +180,7 @@
 		  description { state: "focused" 0.0;								\
 			  inherit: "default" 0.0;										\
 			  image { normal: "img/border_maxShine2.png";					\
-				  border: 10 10 27 1;	middle: 0;							\
+				  border: 10 10 27 3;	middle: 0;							\
 			  }																\
 			  fill.smooth: 0;												\
 		  }																	\
@@ -200,10 +200,10 @@
          description { state: "default" 0.0; 								\
             rel1.relative: 0.0 0.0;											\
             rel1.to: "border";												\
-            rel1.offset: 1 27;												\
+            rel1.offset: 3 27;												\
             rel2.relative: 1.0 1.0;											\
             rel2.to: "border";												\
-            rel2.offset: -2 -2;												\
+            rel2.offset: -4 -4;												\
          }																	\
          description { state: "shaded" 0.0;									\
 			inherit: "default" 0.0;											\
@@ -294,9 +294,9 @@ part {	name: NAME; type: IMAGE;										\
 //All the Event.resizes part
 #define EVENT_RESIZE_ALL							\
 	EVENT_RESIZE(t, 0 0, 0.0 0.0, -1 3, 1.0 0.0)	\
-	EVENT_RESIZE(b, 0 -1, 0.0 1.0, -1 -1, 1.0 1.0)	\
-	EVENT_RESIZE(l, 0 0, 0.0 0.0, 0 -1, 0.0 1.0)	\
-	EVENT_RESIZE(r, -1 0, 1.0 0.0, -1 -1, 1.0 1.0)	\
+	EVENT_RESIZE(b, 0 -3, 0.0 1.0, -1 -1, 1.0 1.0)	\
+	EVENT_RESIZE(l, 0 0, 0.0 0.0, 2 -1, 0.0 1.0)	\
+	EVENT_RESIZE(r, -3 0, 1.0 0.0, -1 -1, 1.0 1.0)	\
 	EVENT_RESIZE(tl, 0 0, 0.0 0.0, 9 9, 0.0 0.0)	\
 	EVENT_RESIZE(tr, -9 0, 1.0 0.0, 0 9, 1.0 0.0)	\
 	EVENT_RESIZE(bl, 0 -9, 0.0 1.0, 9 -1, 0.0 1.0)	\

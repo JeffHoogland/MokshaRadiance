@@ -1,23 +1,4 @@
-#define SOUND_IMG(VOLUME)										\
-set {															\
-			name: "audio-volume-"VOLUME;						\
-			image {												\
-				image: "img/audio-volume-"VOLUME".png" COMP;	\
-				size: 0 0 24 24;								\
-			}													\
-			image {												\
-				image: "img/audio-volume-"VOLUME".png" COMP;	\
-				size: 25 25 64 64;								\
-			}													\
-			image {												\
-				image: "img/audio-volume-"VOLUME".png" COMP;	\
-				size: 65 65 128 128;							\
-			}													\
-			image {												\
-				image: "img/audio-volume-"VOLUME".png" COMP;	\
-				size: 129 129 256 256;							\
-			}													\
-		}
+#define SOUND_IMG(VOLUME) image: "img/audio-volume-"VOLUME".png" COMP;
 
 group { name: "e/modules/mixer/main";
 	images {
@@ -66,7 +47,7 @@ group { name: "e/modules/mixer/main";
 			description { state: "default" 0.0;
 				min: 16 16; max: 256 256;
 				aspect: 1 1; aspect_preference: BOTH;
-				image.normal: "audio-volume-muted";
+				image.normal: "img/audio-volume-muted.png";
 				rel1.offset: 2 2;
 				rel2.offset: -3 -3;
 			}
@@ -80,21 +61,21 @@ group { name: "e/modules/mixer/main";
 				max: 256 256;
 				aspect: 1 1;
 				aspect_preference: BOTH;
-				image.normal: "audio-volume-zero";
+				image.normal: "img/audio-volume-zero.png";
 				rel1.offset: 2 2;
 				rel2.offset: -3 -3;
 			}
 			description { state: "low" 0.0;
 				inherit: "default" 0.0;
-				image.normal: "audio-volume-low";
+				image.normal: "img/audio-volume-low.png";
 			}
 			description { state: "medium" 0.0;
 				inherit: "default" 0.0;
-				image.normal: "audio-volume-medium";
+				image.normal: "img/audio-volume-medium.png";
 			}
 			description { state: "high" 0.0;
 				inherit: "default" 0.0;
-				image.normal: "audio-volume-high";
+				image.normal: "img/audio-volume-high.png";
 			}
 		}
 	}

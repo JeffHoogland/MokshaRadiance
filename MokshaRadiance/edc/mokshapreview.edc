@@ -1,0 +1,13 @@
+group { name: "moksha/preview";
+   images.image: "img/preview.png" COMP;
+   parts {
+      part { name: "bg";
+         description { state: "default" 0.0;
+            image.normal: "img/preview.png";
+            image.scale_hint: STATIC;
+            fill.smooth: 0;
+         }
+      }
+   }
+}
+

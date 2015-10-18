@@ -14,7 +14,7 @@
  * 						 or search me (Duma) on forums.bodhilinux.com  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
  
- data {
+data {
 	item: "theme/name"		"Radiance";
 	item: "theme/version"	"beta";
 	item: "theme/author"	"Alberto 'Duma' Verdoja & Jeff Hoogland";
@@ -96,7 +96,7 @@ collections {
 // icons
 #include "edc/icons.edc"
 #include "edc/border-icons.edc"
-
+#include "edc/mokshapreview.edc"
 
 
 // port unchanged stuff so this can work as a replacement

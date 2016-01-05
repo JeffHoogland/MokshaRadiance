@@ -754,7 +754,7 @@ group { name: "elm/toolbar/item/default";
          signal: "elm,icon,hidden"; source: "elm";
          script {
            new m = get_int(btmode);
-            m |= ICON; set_int(btmode, m);
+            m &= ~ICON; set_int(btmode, m);
             eval_mode(m);
          }
       }
@@ -762,7 +762,7 @@ group { name: "elm/toolbar/item/default";
          signal: "elm,icon,visible"; source: "elm";
          script {
             new m = get_int(btmode);
-            m &= ~ICON; set_int(btmode, m);
+            m |= ICON; set_int(btmode, m);
             eval_mode(m);
          }
       }

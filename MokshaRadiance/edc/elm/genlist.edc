@@ -1430,7 +1430,7 @@ group { name: "elm/genlist/item_compress_odd/full/default";
 //-- tree_odd
 //-- tree_compress
 //-- tree_compress_odd
-group { name: "elm/genlist/tree/default/default"; nomouse;
+group { name: "elm/genlist/tree/default/default";
    inherit: "elm/genlist/item/default/default";
    // XXX: these need to be... done specially.
 //   alias: "elm/genlist/tree/tree_effect/default";
@@ -1441,7 +1441,7 @@ group { name: "elm/genlist/tree/default/default"; nomouse;
    images.image: "img/arrow.png" COMP; \
    images.image: "img/arrow_up.png" COMP; \
    images.image: "img/arrow_down.png" COMP; \
-   images.image: "img/arrow_left.png" COMP; \
+   images.image: "img/arrow_left.png" COMP;
    
    TREEIMGS()
    parts {
@@ -1588,7 +1588,7 @@ group { name: "elm/genlist/tree/default/default"; nomouse;
          } \
       } \
       program { name: "arr3"; \
-         signal: "elm,state,selected"; source: "elm"; \
+         signal: "elm,state,selected"; \
          script { \
             new st[31], Float:vl; \
             get_state(PART:"arrow_img_l", st, 30, vl); \
@@ -1597,7 +1597,7 @@ group { name: "elm/genlist/tree/default/default"; nomouse;
          } \
       } \
       program { name: "arr4"; \
-         signal: "elm,state,unselected"; source: "elm"; \
+         signal: "elm,state,unselected"; \
          script { \
             new st[31], Float:vl; \
             get_state(PART:"arrow_img_l", st, 30, vl); \
@@ -1606,7 +1606,7 @@ group { name: "elm/genlist/tree/default/default"; nomouse;
          } \
       } \
       program { name: "arr5"; \
-         signal: "elm,state,enabled"; source: "elm"; \
+         signal: "elm,state,enabled"; \
          script { \
             new st[31], Float:vl; \
             get_state(PART:"arrow_img_l", st, 30, vl); \
@@ -1615,26 +1615,14 @@ group { name: "elm/genlist/tree/default/default"; nomouse;
          } \
       } \
       program { name: "arr6"; \
-         signal: "elm,state,disabled"; source: "elm"; \
+         signal: "elm,state,disabled"; \
          script { \
             new st[31], Float:vl; \
             get_state(PART:"arrow_img_l", st, 30, vl); \
             set_state(PART:"arrow_img_l", "disabled", vl); \
             set_state(PART:"arrow_img_r", "disabled", vl); \
          } \
-      } \
-      program { \
-         signal: "edje,state,rtl"; source: "edje"; \
-         action: STATE_SET "rtl" 0.0; \
-         target: "arrow_clip_l"; \
-         target: "arrow_clip_r"; \
-      } \
-      program { \
-         signal: "edje,state,ltr"; source: "edje"; \
-         action: STATE_SET "default" 0.0; \
-         target: "arrow_clip_l"; \
-         target: "arrow_clip_r"; \
-      }
+      } 
       ARROW()
    }
 }
@@ -1824,7 +1812,7 @@ group { name: "elm/genlist/tree_compress_odd/full/default";
       } \
    }
 
-group { name: "elm/genlist/tree/tree_effect/default"; nomouse;
+group { name: "elm/genlist/tree/tree_effect/default";
    data.item: "selectraise" "on";
    data.item: "focusraise" "on";
    data.item: "texts" "elm.text";

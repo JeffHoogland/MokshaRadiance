@@ -174,7 +174,7 @@ group { name: "e/modules/cpufreq/main";
 			description { state: "default" 0.0;
 				align: 0.0 0.5;
 				rel1.to: "base";
-				rel1.relative: 0.52 0.54;
+				rel1.relative: 0.22 0.54;
 				rel2.relative: 0.75 0.75;
 				color: 255 255 255 255;
 				color2: 255 255 255 0;

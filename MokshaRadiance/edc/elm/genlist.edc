@@ -1,3 +1,10 @@
+/* genlist widget item style information
+
+   [SIGNAL]
+      elm,state,focused: Emitted when an item is focused only when an item's "focus_highlight" is "on".
+      elm,state,unfocused: Emitted when an item is unfocused only when an item's "focus_highlight" is "on".
+*/
+
 #define ODD(_NAME, _SRC) \
    group { name: _NAME; \
       inherit: _SRC; \
@@ -246,6 +253,7 @@ group { name: "elm/genlist/item_compress/group_index/default"; nomouse;
 
 group { name: "elm/genlist/item/default/default";
    data.item: "selectraise" "on";
+   data.item: "focusraise" "on";
    data.item: "texts" "elm.text";
    data.item: "contents" "elm.swallow.icon elm.swallow.end";
    data.item: "treesize" TREEPAD;
@@ -1390,8 +1398,7 @@ group { name: "elm/genlist/item/full/default"; nomouse;
       BASEP()
 
       //##//
-      part { name: "elm.swallow.content"; type: SWALLOW;
-         mouse_events: 1;
+      part { name: "elm.swallow.content"; type: SWALLOW; mouse_events: 1;
          scale: 1;
          description { state: "default" 0.0;
             min: 19 19;
@@ -1402,8 +1409,7 @@ group { name: "elm/genlist/item/full/default"; nomouse;
          }
       }
       //##//
-      part { name: "elm.swallow.pad"; type: SWALLOW;
-         mouse_events: 1;
+      part { name: "elm.swallow.pad"; type: SWALLOW; mouse_events: 1;
          description { state: "default" 0.0;
             fixed: 1 0;
             align: 0.0 0.5;
@@ -1418,7 +1424,7 @@ group { name: "elm/genlist/item/full/default"; nomouse;
    }
 }
 ODD("elm/genlist/item_odd/full/default", "elm/genlist/item/full/default")
-group { name: "elm/genlist/item_compress/full/default";
+group { name: "elm/genlist/item_compress/full/default"; nomouse;
    inherit: "elm/genlist/item/full/default";
 }
 group { name: "elm/genlist/item_compress_odd/full/default";
@@ -1530,7 +1536,7 @@ group { name: "elm/genlist/tree/default/default";
             color: 255 255 255 125; \
          } \
       } \
-      part { name: "arrow"; type: RECT; insert_before: "sel_shine"; \
+      part { name: "arrow"; type: RECT; insert_before: "event_block"; mouse;\
          description { state: "default" 0.0; \
             fixed: 1 0; \
             min: 10 10; \
@@ -1551,11 +1557,11 @@ group { name: "elm/genlist/tree/default/default";
             rel2.to: "arrow_img_l"; \
             visible: 1; \
          } \
-         description { state: "rtl" 0.0; \
+         description { state: "rtl" 0.0;	\
             visible: 0; \
          } \
       } \
-      part { name: "arrow_clip_r"; type: RECT; \
+      part { name: "arrow_clip_r"; type: RECT;\
          description { state: "default" 0.0; \
             rel1.to: "arrow_img_r"; \
             rel2.to: "arrow_img_r"; \
@@ -1826,7 +1832,7 @@ group { name: "elm/genlist/tree/tree_effect/default";
       alias: "elm.swallow.icon" "group:elm.swallow.icon";
       alias: "elm.swallow.end" "group:elm.swallow.end";
       alias: "elm.text" "group:elm.text";
-      part { name: "point"; type: RECT;
+      part { name: "point"; type: RECT; mouse;
          scale: 1;
          description { state: "default" 0.0;
             color: 0 0 0 0;
@@ -1834,12 +1840,12 @@ group { name: "elm/genlist/tree/tree_effect/default";
             rel2.relative: 1.0 0.0;
          }
       }
-      part { name: "event"; type: RECT;
+      part { name: "event"; type: RECT;  mouse;
          description { state: "default" 0.0;
             color: 0 0 0 0;
          }
       }
-      part { name: "group"; type: GROUP;
+      part { name: "group"; type: GROUP;  mouse;
          source: "elm/genlist/tree/default/default";
          description { state: "default" 0.0;
          }

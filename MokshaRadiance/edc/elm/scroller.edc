@@ -120,6 +120,7 @@ group { name: "elm/scroller/base/default";
       part { name: "elm.swallow.content"; type: SWALLOW;
          clip_to: "clipper";
          description { state: "default" 0.0;
+			min: 200 10;
             rel1.offset: 0 0;
             rel1.to: "bg";
             rel2.relative: 0.0 0.0;

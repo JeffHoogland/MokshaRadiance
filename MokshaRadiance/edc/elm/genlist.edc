@@ -1466,7 +1466,7 @@ group { name: "elm/genlist/tree/default/default";
          }
       }
 #define ARROW() \
-      part { name: "arrow_img_l"; mouse_events: 0; insert_after: "sel_bevel"; \
+      part { name: "arrow_img_l"; mouse_events: 0; \
          clip_to: "arrow_clip_l"; \
          scale: 1; \
          ignore_flags: ON_HOLD; \

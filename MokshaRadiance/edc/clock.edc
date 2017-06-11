@@ -79,8 +79,8 @@ group { name: "e/modules/clock/digital";
 		part { name: "time-area";
 			type: RECT;
 			description { state: "default" 0.0;
-			color: TRANSPARENT;
-			}
+            visible: 0;
+             }
 			description { state: "show-date" 0.0;
 				inherit: "default" 0.0;
 				rel2 {
@@ -92,7 +92,7 @@ group { name: "e/modules/clock/digital";
 		part { name: "time";
 			type: TEXT;
 			effect: SHADOW;
-			scale: 1;
+			scale: 0;
 			description { state: "default" 0.0;
 				color: 255 255 255 255;
 				color3: 255 255 255 255;

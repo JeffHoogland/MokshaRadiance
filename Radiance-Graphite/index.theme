@@ -1,12 +1,11 @@
 [Desktop Entry]
 Type=X-GNOME-Metatheme
-Name=Radiance-Graphite
-Comment=Ubuntu Radiance theme, In New Colors By RAVEfinity 14.04 Build
+Name=oomox-MokshaRadiance
+Comment=A partially sexual act; when a female (of any species; mostly humanoids) rubs the ears/lobes of a male Ferengi, creating sensual emotions and chemical reactions in the male (and sometimes in the female).
 Encoding=UTF-8
 
 [X-GNOME-Metatheme]
-GtkTheme=Radiance-Graphite
-MetacityTheme=Radiance-Graphite
-IconTheme=ubuntu-mono-light
-CursorTheme=DMZ-White
-ButtonLayout=close,minimize,maximize:
+Name=oomox-MokshaRadiance
+GtkTheme=oomox-MokshaRadiance
+IconTheme=oomox-MokshaRadiance
+MetacityTheme=oomox-MokshaRadiance

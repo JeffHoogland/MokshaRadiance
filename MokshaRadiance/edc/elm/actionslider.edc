@@ -138,6 +138,10 @@ group { name: "elm/actionslider/base/default";
             fill.smooth: 0;
             color_class: "dialog_base";
          }
+         description { state: "clicked" 0.0;
+            inherit: "default" 0.0;
+            image.normal: "img/actionsliderOFF_SH.png";
+         }
       }
       
       part { name: "drag_button_SH"; mouse_events: 0;

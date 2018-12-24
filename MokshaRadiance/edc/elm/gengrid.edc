@@ -866,6 +866,10 @@ group { name: "elm/gengrid/item/thumb/default";
             inherit: "default" 0.0;
             color: 255 255 255 64;
          }
+         description { state: "selected" 0.0;
+            inherit: "default" 0.0;
+            visible: 1;
+         }
       }
       part { name: "elm.swallow.pad"; type: SWALLOW;
          description { state: "default" 0.0;

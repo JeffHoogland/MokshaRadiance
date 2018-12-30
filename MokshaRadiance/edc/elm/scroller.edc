@@ -185,6 +185,9 @@ group { name: "elm/scroller/base/default";
             color: 0 0 0 0;
             fixed: 1 1;
          }
+         description { state: "clicked" 0.0;
+             inherit: "default" 0.0;
+         }
       }
       part { name: "sb_hbar_p1"; type: RECT;
          clip_to: "sb_hbar";

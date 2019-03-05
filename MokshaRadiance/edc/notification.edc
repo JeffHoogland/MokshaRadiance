@@ -52,7 +52,7 @@ group { name: "e/modules/notification/main";
             color: TOOLTIP_COLOR;
             image.border: 10 10 10 10;
             min: 280 90;
-            max: 280 90;
+            //~ max: 280 90;
          }
       }
       part { name: "titleclip"; type: RECT;
@@ -64,7 +64,7 @@ group { name: "e/modules/notification/main";
       part { name: "bodyclip"; type: RECT;
          description { state: "default" 0.0;
             rel2.offset: -13 -13;
-            //min: 220 80;
+            min: 220 80;
          }
       }
       part { name: "notification.swallow.app_icon"; type: SWALLOW; mouse_events: 0;
@@ -102,7 +102,7 @@ group { name: "e/modules/notification/main";
             max: 500 99999;
             rel1.to_x: "notification.swallow.app_icon";
             rel1.to_y: "notification.text.title";
-            rel2.to: "base";
+            //~ rel2.to: "base";
             rel1.relative: 1.0 1.0;
             rel1.offset: 4 4;
             rel2.offset: -27 -13;
@@ -134,6 +134,7 @@ group { name: "e/modules/notification/main";
                min: 0 1;
                align: 0.0 0.5;
                text_class: "notification_title";
+               ellipsis: -1;
             }
             fixed: 0 1;
          }

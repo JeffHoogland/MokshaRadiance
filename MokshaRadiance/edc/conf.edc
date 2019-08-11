@@ -67,7 +67,7 @@ group { name: "e/modules/conf/main";
       }
       
       program { name: "go_big";
-         action: STATE_SET "visible" 0.0;
+         action: STATE_SET "default" 0.0;
          target: "icon_overlay";
       }
       program { name: "go_big2";

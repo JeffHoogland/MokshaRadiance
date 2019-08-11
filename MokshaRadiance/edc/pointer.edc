@@ -438,7 +438,7 @@ group { name: "e/pointer/enlightenment/move/color";
    programs {
       program { name: "move1";
          signal: "load"; source: "";
-         action: STATE_SET "faded" 0.0;
+         action: STATE_SET "visible" 0.0;
          transition: SINUSOIDAL 0.5;
          target: "glow";
          after: "move2";

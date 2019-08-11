@@ -218,7 +218,7 @@ group { name:"e/modules/tasks/item";
          signal: "e,state,uniconified"; source: "e";
          action: STATE_SET "clicked" 0.0;
          target: "e.text.label";
-         target: "icon_clip";
+         //~ target: "icon_clip";
       }
       program {
          signal: "e,state,icon_only"; source: "e";

@@ -177,7 +177,7 @@ image.normal: "img/button_foc3_SH.png";
          target: "shine";
          target: "shine2";
          target: "shine2_bg";
-         target: "e.text.label";
+         //~ target: "e.text.label";
       }
       program {
          signal: "mouse,up,1"; source: "event";
@@ -359,7 +359,7 @@ image.normal: "img/button_foc3_SH.png";
          target: "shine";
          target: "shine2";
          target: "shine2_bg";
-         target: "e.text.label";
+         //~ target: "e.text.label";
       }
       program {
          signal: "mouse,up,1"; source: "event";
@@ -443,20 +443,19 @@ group
          }
       }
       }
-        programs {
-        OVER("icon","icon_overlay","default","show")
-             program  {
-                  name: "button_clicked";
-                  signal: "mouse,clicked,1";
-                  source: "icon_overlay";
-                  action: SIGNAL_EMIT "e,action,shutdown,show" "";
-               }
-               program { name: "go_big";
-         action: STATE_SET "visible" 0.0;
+   programs {
+      OVER("icon","icon_overlay","default","show")
+      program  { name: "button_clicked";
+         signal: "mouse,clicked,1";
+         source: "icon_overlay";
+         action: SIGNAL_EMIT "e,action,shutdown,show" "";
+      }
+      program { name: "go_big";
+         action: STATE_SET "default" 0.0;
          target: "icon_overlay";
       }
       program { name: "go_big2";
-      signal: "mouse,in"; source: "icon_overlay";
+         signal: "mouse,in"; source: "icon_overlay";
          action: STATE_SET "huge" 0.0;
          transition: LINEAR 0.7;
          target: "icon_overlay";

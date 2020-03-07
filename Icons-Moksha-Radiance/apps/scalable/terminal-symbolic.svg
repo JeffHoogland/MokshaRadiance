@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill="#4F575A"
+   height="48"
+   version="1.1"
+   viewBox="0 0 48 48"
+   width="48"
+   id="svg8"
+   sodipodi:docname="terminal-symbolic.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     pagecolor="#4F575A"
+     bordercolor="#4F575A"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="795"
+     inkscape:window-height="480"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="4.9166667"
+     inkscape:cx="2.2372881"
+     inkscape:cy="24"
+     inkscape:window-x="38"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg8" />
+  <path
+     d="M8 6C5.784 6 4 7.784 4 10L4 38C4 40.216 5.784 42 8 42L40 42C42.216 42 44 40.216 44 38L44 10C44 7.784 42.216 6 40 6L8 6zM8 10L40 10 40 38 8 38 8 10z"
+     fill="#4F575A"
+     stroke-width="3"
+     id="path2"
+     style="fill:#4F575A;fill-opacity:1" />
+  <text
+     fill="#4F575A"
+     font-family="Inconsolata"
+     font-size="20"
+     font-weight="bold"
+     letter-spacing="0"
+     line-height="100%"
+     word-spacing="0"
+     x="11.26"
+     xml:space="preserve"
+     y="25.639999"
+     id="text6"
+     style="fill:#4F575A;"><tspan
+       fill="#4F575A"
+       font-family="Inconsolata"
+       font-size="20"
+       font-weight="bold"
+       line-height="100%"
+       x="11.26"
+       y="25.639999"
+       id="tspan4"
+       style="fill:#4F575A;_</tspan></text>
+</svg>

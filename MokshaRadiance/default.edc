@@ -19,6 +19,7 @@ data {
 	item: "theme/version"	"beta";
 	item: "theme/author"	"Alberto 'Duma' Verdoja & Jeff Hoogland";
 	item: "gtk-theme"		"Radiance-Graphite";
+	item: "icon-theme"      "Icons-Moksha-Radiance"; 
 	// theme api version. from 1.10 on we will check version to avoid
 	// compat issues
 	item: "version"			"110";

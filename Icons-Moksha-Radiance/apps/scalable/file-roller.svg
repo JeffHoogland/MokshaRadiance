@@ -7,59 +7,62 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   fill="#4F575A"
+   fill="#419236"
    height="48"
    version="1.1"
    viewBox="0 0 48 48"
    width="48"
    id="svg10"
    sodipodi:docname="file-roller.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"><metadata
-   id="metadata16">
-  <rdf:RDF>
-    <cc:Work
-       rdf:about="">
-      <dc:format>image/svg+xml</dc:format>
-      <dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-    </cc:Work>
-  </rdf:RDF>
-</metadata>
-<defs
-   id="defs14" />
-<sodipodi:namedview
-   pagecolor="#4F575A"
-   bordercolor="#4F575A"
-   borderopacity="1"
-   objecttolerance="10"
-   gridtolerance="10"
-   guidetolerance="10"
-   inkscape:pageopacity="0"
-   inkscape:pageshadow="2"
-   inkscape:window-width="795"
-   inkscape:window-height="480"
-   id="namedview12"
-   showgrid="false"
-   inkscape:zoom="4.9166667"
-   inkscape:cx="2.2372881"
-   inkscape:cy="24"
-   inkscape:window-x="38"
-   inkscape:window-y="0"
-   inkscape:window-maximized="0"
-   inkscape:current-layer="svg10" />
-<path
-   d="M41.09 10.45L38.32 7.09C37.76 6.43 36.93 6 36 6L12 6C11.07 6 10.24 6.43 9.69 7.09L6.92 10.45C6.34 11.15 6 12.03 6 13l0 25c0 2.21 1.79 4 4 4l28 0c2.21 0 4-1.79 4-4l0-25c0-.97-.34-1.85-.91-2.55z"
-   id="path2" />
-<path
-   d="m10.25 10l1.63-2 24 0 1.87 2-27.5 0z"
-   fill="#4F575A"
-   id="path4"
-   style="fill:#4F575A;fill-opacity:1" />
-<text
-   fill="#4F575A="
-   id="text6" />
-23.966894&quot; xml:space=&quot;preserve&quot; y=&quot;33.6875&quot;&gt;<tspan
-   x="23.966894"
-   y="33.6875"
-   id="tspan8" />
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata16">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1324"
+     inkscape:window-height="745"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="4.9166667"
+     inkscape:cx="1.4237288"
+     inkscape:cy="24"
+     inkscape:window-x="38"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <path
+     d="M41.09 10.45L38.32 7.09C37.76 6.43 36.93 6 36 6L12 6C11.07 6 10.24 6.43 9.69 7.09L6.92 10.45C6.34 11.15 6 12.03 6 13l0 25c0 2.21 1.79 4 4 4l28 0c2.21 0 4-1.79 4-4l0-25c0-.97-.34-1.85-.91-2.55z"
+     id="path2"
+     style="fill:#4f575a;fill-opacity:1" />
+  <path
+     d="m10.25 10l1.63-2 24 0 1.87 2-27.5 0z"
+     fill="#fff"
+     id="path4" />
+  <text
+     fill="#fff"
+     x="23.966894"
+     xml:space="preserve"
+     y="33.6875"
+     id="text8"><tspan
+       x="23.966894"
+       y="33.6875"
+       id="tspan6" /></text>
 </svg>

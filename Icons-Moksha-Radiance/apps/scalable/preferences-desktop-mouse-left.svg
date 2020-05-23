@@ -7,7 +7,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   fill="#4F575A"
+   fill="#419236"
    height="48"
    version="1.1"
    viewBox="0 0 48 48"
@@ -26,15 +26,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
      id="defs8" />
   <sodipodi:namedview
-     pagecolor="#4F575A"
-     bordercolor="#4F575A"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
      borderopacity="1"
      objecttolerance="10"
      gridtolerance="10"
@@ -46,7 +46,7 @@
      id="namedview6"
      showgrid="false"
      inkscape:zoom="4.9166667"
-     inkscape:cx="20.440678"
+     inkscape:cx="-22.576271"
      inkscape:cy="24"
      inkscape:window-x="38"
      inkscape:window-y="0"
@@ -54,9 +54,10 @@
      inkscape:current-layer="svg4" />
   <path
      d="M26 2.07L26 17.93l14 0c0-8.16-6.11-14.88-14-15.86zM8 29.93C8 38.77 15.16 45.93 24 45.93c8.84 0 16-7.16 16-16l0-8-32 0 0 8zM22 2.07C14.11 3.05 8 9.77 8 17.93l14 0L22 2.07Z"
-     id="path2" />
+     id="path2"
+     style="fill:#4f575a;fill-opacity:1" />
   <circle
-     style="opacity:1;fill:#4F575A;fill-opacity:1"
+     style="opacity:1;fill:#ffffff;fill-opacity:1"
      id="path819"
      cx="16.779661"
      cy="10.881356"

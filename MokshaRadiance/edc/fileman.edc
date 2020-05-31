@@ -383,7 +383,7 @@ group { name: "e/fileman/default/icon/fixed";
             rel2.relative: 1.0 1.0;
             rel2.offset: -5 -5;
             min: 12 20;
-            max: 99999 34;
+            max: 99999 14;
             fixed: 0 1;
          }
       }

@@ -68,6 +68,9 @@ group { name: "e/modules/temperature/main";
 			description { state: "default" 0.0;
 				rel1.to_y: "temp_top";
 			}
+			description { state: "high" 0.0;
+				color: 0 0 0 0;
+         } 
 		}
 		part { name: "temp_top"; type: SPACER;
 			dragable.x: 0 0 0;
@@ -110,6 +113,31 @@ group { name: "e/modules/temperature/main";
 			signal: "e,state,unknown"; source: "e";
 			action: STATE_SET "faded" 0.0;
 			target: "fade_clip";
+		}
+		program {
+			signal: "e,state,high"; source: "e";
+			action: STATE_SET "default" 0.0;
+			target: "temp_clip";
+			after: "pulse1";
+		}
+		program {
+			name: "pulse1"; 
+			action: STATE_SET "high" 0.0;
+			transition: DECELERATE 0.5;
+			target: "temp_clip";
+			after: "pulse2";
+		}
+		program {
+			name: "pulse2"; 
+			action: STATE_SET "default" 0.0;
+			transition: ACCELERATE 0.5;
+			target: "temp_clip";
+			after: "pulse1";
+		}
+		program {
+			signal: "e,state,ok"; source: "e";
+			action: STATE_SET "default" 0.0;
+			target: "temp_clip";
 		}
 	}
 }

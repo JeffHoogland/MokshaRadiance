@@ -2,13 +2,6 @@ group { name: "e/init/splash";
    images.image: "screen_circular_shadow.png" COMP;
    images.image: "img/bg_radgrad.png" COMP;
    images.image: "img/dot_pattern.png" COMP;
-   images.image: "logo_blue_small.png" COMP;
-   images.image: "logo_blue_small_glow.png" COMP;
-   images.image: "led_square_base.png" COMP;
-   images.image: "led_square_glow.png" COMP;
-   images.image: "led_square_shading.png" COMP;
-   images.image: "led_square_shadow.png" COMP;
-   images.image: "led_square_shine.png" COMP;
    script {
       public is_ready;
       public do_end;

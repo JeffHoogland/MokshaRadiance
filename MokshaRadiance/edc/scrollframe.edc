@@ -4,7 +4,7 @@ group { name: "e/widgets/scrollframe";
    images.image: "img/scrollbarV_drag_SH.png" COMP;
    images.image: "img/scrollbarV_bg.png" COMP;
    images.image: "img/scrollbarV_bg_SH.png" COMP;
-   images.image: "img/scrollbarH_drag.png" COMP;
+   //~ images.image: "img/scrollbarH_drag.png" COMP;
    images.image: "img/scrollbarH_drag_SH.png" COMP;
    images.image: "img/scrollbarH_bg.png" COMP;
    images.image: "img/scrollbarH_bg_SH.png" COMP;

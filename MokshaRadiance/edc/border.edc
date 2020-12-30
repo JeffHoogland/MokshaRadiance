@@ -71,7 +71,6 @@
 		image: "img/border_maxShine.png" COMP;				\
 		image: "img/border_maxShine2.png" COMP;				\
 		image: "img/border_trough_right.png" COMP;			\
-		image: "border_trough_unfocused_right.png" COMP;	\
 		image: "img/win_button_base.png" COMP;
 
 #define BT_CLOSE_IMAGES										\

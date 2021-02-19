@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=MokshaRadiance
+Comment=The Radiance theme for Moksha desktop created in oomox tool
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+Name=MokshaRadiance
+GtkTheme=MokshaRadiance
+IconTheme=oomox-MokshaRadiance
+MetacityTheme=oomox-MokshaRadiance
